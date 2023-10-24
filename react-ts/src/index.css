@@ -1,0 +1,13 @@
+:root {
+  --primary-color: rgb(6, 6, 48);
+  --secondary-color: rgb(87, 90, 126);
+  --contrast-color: white;
+  --main-font: 'Calibri';
+}
+
+html {
+  background-color: var(--primary-color);
+  font-family: var(--main-font);
+  color: var(--contrast-color);
+  font-size: 18px;
+}
