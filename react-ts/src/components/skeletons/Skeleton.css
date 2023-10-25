@@ -1,0 +1,21 @@
+.skeleton {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+}
+
+.gallery__skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.skeleton.name {
+  width: 25%;
+  height: calc(1.5rem * 1.23);
+}
+
+.skeleton.description {
+  width: 100%;
+  height: calc(1rem * 1.23);
+}

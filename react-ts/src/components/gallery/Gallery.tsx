@@ -1,17 +1,22 @@
+import { GalleryPage } from '../../util/enums';
 import {
   PokemonListItemResponseData,
   PokemonSpeciesResponseData,
 } from '../../util/interfaces';
+import SmallCardSkeleton from '../skeletons/SmallCardSkeleton';
 import SmallCard from '../small-card/SmallCard';
 import './gallery.css';
 import { Component } from 'react';
 
 class Gallery extends Component {
   state = {
+    isLoading: true,
     pokemonCards: [],
   };
   componentDidMount() {
-    fetch('https://pokeapi.co/api/v2/pokemon-species/')
+    fetch(
+      `https://pokeapi.co/api/v2/pokemon-species/?offset=0&limit=${GalleryPage.itemCount}`
+    )
       .then((response) => response.json())
       .then((data) => {
         const pokemonURLs = data.results.map(
@@ -24,7 +29,6 @@ class Gallery extends Component {
 
         Promise.all(pokemonPromises)
           .then((pokemonData) => {
-            console.log(pokemonData);
             const pokemonCards = pokemonData.map(
               (pokemon: PokemonSpeciesResponseData) => (
                 <SmallCard
@@ -48,14 +52,24 @@ class Gallery extends Component {
               'An error occured while fetching the pokemon data:',
               error
             );
+          })
+          .finally(() => {
+            this.setState({ isLoading: false });
           });
       });
   }
   render() {
+    const pageSize = GalleryPage.itemCount;
     return (
       <div className="gallery">
         <h2 className="gallery__header">Pokemon Collection</h2>
-        <div className="gallery__page">{this.state.pokemonCards}</div>
+        <div className="gallery__page">
+          {this.state.isLoading
+            ? [...Array(pageSize)].map((_, index) => (
+                <SmallCardSkeleton key={index} />
+              ))
+            : this.state.pokemonCards}
+        </div>
       </div>
     );
   }
