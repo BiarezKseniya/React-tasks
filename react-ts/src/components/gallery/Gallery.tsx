@@ -13,51 +13,94 @@ class Gallery extends Component {
     isLoading: true,
     pokemonCards: [],
   };
-  componentDidMount() {
-    fetch(
-      `https://pokeapi.co/api/v2/pokemon-species/?offset=0&limit=${GalleryPage.itemCount}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const pokemonURLs = data.results.map(
-          (pokemon: PokemonListItemResponseData) => pokemon.url
-        );
 
-        const pokemonPromises = pokemonURLs.map((url: string) =>
-          fetch(url).then((response) => response.json())
-        );
-
-        Promise.all(pokemonPromises)
-          .then((pokemonData) => {
-            const pokemonCards = pokemonData.map(
-              (pokemon: PokemonSpeciesResponseData) => (
-                <SmallCard
-                  key={pokemon.id}
-                  name={pokemon.name}
-                  description={
-                    pokemon.flavor_text_entries
-                      .find((entry) => entry.language.name === 'en')
-                      ?.flavor_text.replace(/\f/g, ' ') ||
-                    'No description available.'
-                  }
-                />
-              )
-            );
-            this.setState({
-              pokemonCards: pokemonCards,
-            });
-          })
-          .catch((error) => {
-            console.error(
-              'An error occured while fetching the pokemon data:',
-              error
-            );
-          })
-          .finally(() => {
-            this.setState({ isLoading: false });
+  updateGallery = () => {
+    const searchValue = localStorage.getItem('searchValue');
+    if (searchValue) {
+      fetch(`https://pokeapi.co/api/v2/pokemon-species/${searchValue}/`)
+        .then((response) => response.json())
+        .then((pokemon: PokemonSpeciesResponseData) => {
+          const pokemonCard = (
+            <SmallCard
+              key={pokemon.id}
+              name={pokemon.name}
+              description={
+                pokemon.flavor_text_entries
+                  .find((entry) => entry.language.name === 'en')
+                  ?.flavor_text.replace(/\f/g, ' ') ||
+                'No description available.'
+              }
+            />
+          );
+          this.setState({
+            pokemonCards: [pokemonCard],
           });
-      });
+        })
+        .catch((error) => {
+          console.error(
+            'An error occurred while fetching the pokemon data:',
+            error
+          );
+        })
+        .finally(() => {
+          this.setState({ isLoading: false });
+        });
+    } else {
+      fetch(
+        `https://pokeapi.co/api/v2/pokemon-species/?offset=0&limit=${GalleryPage.itemCount}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const pokemonURLs = data.results.map(
+            (pokemon: PokemonListItemResponseData) => pokemon.url
+          );
+
+          const pokemonPromises = pokemonURLs.map((url: string) =>
+            fetch(url).then((response) => response.json())
+          );
+
+          Promise.all(pokemonPromises)
+            .then((pokemonData) => {
+              const pokemonCards = pokemonData.map(
+                (pokemon: PokemonSpeciesResponseData) => (
+                  <SmallCard
+                    key={pokemon.id}
+                    name={pokemon.name}
+                    description={
+                      pokemon.flavor_text_entries
+                        .find((entry) => entry.language.name === 'en')
+                        ?.flavor_text.replace(/\f/g, ' ') ||
+                      'No description available.'
+                    }
+                  />
+                )
+              );
+              this.setState({
+                pokemonCards: pokemonCards,
+              });
+            })
+            .catch((error) => {
+              console.error(
+                'An error occurred while fetching the pokemon data:',
+                error
+              );
+            })
+            .finally(() => {
+              this.setState({ isLoading: false });
+            });
+        });
+    }
+  };
+
+  componentDidMount() {
+    this.updateGallery();
+    window.addEventListener('searchValueChange', this.updateGallery);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('searchValueChange', this.updateGallery);
+  }
+
   render() {
     const pageSize = GalleryPage.itemCount;
     return (
