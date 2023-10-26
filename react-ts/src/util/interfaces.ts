@@ -1,3 +1,8 @@
+export interface SmallCardProps {
+  name: string;
+  description: string;
+}
+
 export interface PokemonListResponseData {
   results: PokemonListItemResponseData[];
 }
@@ -18,4 +23,12 @@ export interface PokemonDescription {
   language: {
     name: string;
   };
+}
+
+export interface ClickableIconProps {
+  onClick: (e: React.FormEvent) => void;
+}
+
+export interface SkeletonProps {
+  type: string;
 }

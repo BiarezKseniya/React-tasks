@@ -1,6 +1,7 @@
 import { Component } from 'react';
+import { ClickableIconProps } from '../../util/interfaces';
 
-class ClearIcon extends Component {
+class ClearIcon extends Component<ClickableIconProps> {
   render() {
     return (
       <svg
@@ -11,6 +12,7 @@ class ClearIcon extends Component {
         height="100"
         viewBox="0 0 50 50"
         className="clear__icon"
+        onClick={this.props.onClick}
       >
         <path
           fill="currentColor"

@@ -1,6 +1,7 @@
 import { Component } from 'react';
+import { ClickableIconProps } from '../../util/interfaces';
 
-class SearchIcon extends Component {
+class SearchIcon extends Component<ClickableIconProps> {
   render() {
     return (
       <svg
@@ -11,6 +12,7 @@ class SearchIcon extends Component {
         height="100"
         viewBox="0 0 30 30"
         className="search__icon"
+        onClick={this.props.onClick}
       >
         <path
           fill="currentColor"

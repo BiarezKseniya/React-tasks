@@ -1,9 +1,6 @@
+import { SkeletonProps } from '../../util/interfaces';
 import './Skeleton.css';
 import { Component } from 'react';
-
-type SkeletonProps = {
-  type: string;
-};
 
 class Skeleton extends Component<SkeletonProps> {
   state = {

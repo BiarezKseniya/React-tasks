@@ -1,10 +1,6 @@
+import { SmallCardProps } from '../../util/interfaces';
 import './SmallCard.css';
 import { Component } from 'react';
-
-export type SmallCardProps = {
-  name: string;
-  description: string;
-};
 
 class SmallCard extends Component<SmallCardProps> {
   render() {
