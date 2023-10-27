@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface SmallCardProps {
   name: string;
   description: string;
@@ -31,4 +33,12 @@ export interface ClickableIconProps {
 
 export interface SkeletonProps {
   type: string;
+}
+
+export interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+export interface ErrorBoundaryState {
+  hasError: boolean;
 }

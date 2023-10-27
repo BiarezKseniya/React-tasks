@@ -11,3 +11,14 @@ html {
   color: var(--contrast-color);
   font-size: 18px;
 }
+
+button {
+  box-sizing: content-box;
+  border-radius: 5px;
+  border: 1px var(--secondary-color) solid;
+  background-color: transparent;
+  padding: 10px;
+  color: var(--contrast-color);
+  font-family: var(--main-font);
+  transition: 0.3s;
+}
