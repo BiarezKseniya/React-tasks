@@ -9,6 +9,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
+  box-sizing: border-box;
 }
 
 .small-card__name {
@@ -16,6 +17,14 @@
   text-transform: capitalize;
 }
 
-.small-card:hover:has(:not(.skeleton)) {
-  background-color: var(--secondary-color);
+@media (max-width: 680px) {
+  .small-card {
+    padding: 10px;
+  }
+}
+
+@media (hover: hover) {
+  .small-card:hover:has(:not(.skeleton)) {
+    background-color: var(--secondary-color);
+  }
 }

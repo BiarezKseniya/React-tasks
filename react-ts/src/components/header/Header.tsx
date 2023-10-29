@@ -17,15 +17,17 @@ class Header extends Component {
           <h1 className="header__title">Pokemon Finder</h1>
           <div className="header__subtitle">Search for your Pokemon!</div>
         </div>
-        <Search />
-        <button
-          className="header__get-error"
-          onClick={() => {
-            this.setState({ showError: true });
-          }}
-        >
-          Get Error
-        </button>
+        <div className="header__controls">
+          <Search />
+          <button
+            className="header__get-error"
+            onClick={() => {
+              this.setState({ showError: true });
+            }}
+          >
+            Get Error
+          </button>
+        </div>
       </header>
     );
   }

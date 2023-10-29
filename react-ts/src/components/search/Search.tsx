@@ -26,7 +26,7 @@ class Search extends Component {
           value={this.state.searchValue}
           className="search__input"
           type="text"
-          placeholder="Enter pokemon name or pokedex number"
+          placeholder="Pokemon name or pokedex number..."
           onChange={this.handleInputChange}
         />
         <SearchIcon onClick={this.handleSubmit} />
