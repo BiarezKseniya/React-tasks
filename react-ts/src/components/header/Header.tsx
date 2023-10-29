@@ -1,16 +1,10 @@
+import ErrorButton from '../error-button/ErrorButton';
 import Search from '../search/Search';
 import './Header.css';
 import { Component } from 'react';
 
 class Header extends Component {
-  state = {
-    showError: false,
-  };
-
   render() {
-    if (this.state.showError) {
-      throw new Error('Test error');
-    }
     return (
       <header className="header">
         <div className="header__text">
@@ -19,14 +13,7 @@ class Header extends Component {
         </div>
         <div className="header__controls">
           <Search />
-          <button
-            className="header__get-error"
-            onClick={() => {
-              this.setState({ showError: true });
-            }}
-          >
-            Get Error
-          </button>
+          <ErrorButton />
         </div>
       </header>
     );
