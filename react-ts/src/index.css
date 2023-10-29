@@ -1,0 +1,39 @@
+:root {
+  --primary-color: rgb(6, 6, 48);
+  --secondary-color: rgb(87, 90, 126);
+  --contrast-color: white;
+  --main-font: 'Calibri';
+}
+
+html {
+  background-color: var(--primary-color);
+  font-family: var(--main-font);
+  color: var(--contrast-color);
+  font-size: 18px;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  border-radius: 5px;
+  border: 1px var(--secondary-color) solid;
+  background-color: transparent;
+  padding: 10px;
+  color: var(--contrast-color);
+  font-family: var(--main-font);
+  transition: 0.3s;
+}
+
+@media (max-width: 992px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+}

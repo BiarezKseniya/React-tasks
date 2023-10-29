@@ -1,0 +1,36 @@
+.gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.gallery__header {
+  font-size: 1.7rem;
+}
+
+.gallery__page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.gallery__error-message {
+  font-size: 1.3rem;
+}
+
+@media (max-width: 680px) {
+  .gallery {
+    margin-top: 0;
+  }
+  .gallery__header {
+    margin: 10px 0;
+  }
+  .gallery__page {
+    gap: 10px;
+  }
+}
