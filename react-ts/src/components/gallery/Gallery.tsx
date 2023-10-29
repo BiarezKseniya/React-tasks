@@ -5,7 +5,7 @@ import {
 } from '../../util/interfaces';
 import SmallCardSkeleton from '../skeletons/SmallCardSkeleton';
 import SmallCard from '../small-card/SmallCard';
-import './gallery.css';
+import './Gallery.css';
 import { Component } from 'react';
 
 class Gallery extends Component {
