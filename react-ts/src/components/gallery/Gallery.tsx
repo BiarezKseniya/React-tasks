@@ -1,4 +1,4 @@
-import { GalleryPage } from '../../util/enums';
+import { Api, GalleryPage } from '../../util/enums';
 import {
   PokemonListItemResponseData,
   PokemonSpeciesResponseData,
@@ -19,39 +19,26 @@ class Gallery extends Component {
     this.setState({ error: null, isLoading: true });
     const searchValue = localStorage.getItem('searchValue');
     if (searchValue) {
-      fetch(`https://pokeapi.co/api/v2/pokemon-species/${searchValue}/`)
+      fetch(`${Api.baseUrl}${Api.speciesEndpoint}${searchValue}/`)
         .then((response) => {
           if (!response.ok) {
+            let error;
             if (response.status === 404) {
-              this.setState({
-                error: new Error(
-                  `Unfortunately, there is no result for your search "${searchValue}". Try other search!`
-                ),
-              });
+              error = new Error(
+                `Unfortunately, there is no result for your search "${searchValue}". Try other search!`
+              );
+              this.setState({ error: error });
             } else {
-              throw new Error(
+              error = new Error(
                 `API request failed with status: ${response.status}`
               );
             }
+            throw error;
           }
           return response.json();
         })
         .then((pokemon: PokemonSpeciesResponseData) => {
-          const pokemonCard = (
-            <SmallCard
-              key={pokemon.id}
-              name={pokemon.name}
-              description={
-                pokemon.flavor_text_entries
-                  .find((entry) => entry.language.name === 'en')
-                  ?.flavor_text.replace(/\f/g, ' ') ||
-                'No description available.'
-              }
-            />
-          );
-          this.setState({
-            pokemonCards: [pokemonCard],
-          });
+          this.setPokemonCards([pokemon]);
         })
         .catch(() => {
           //Nothing to be done here
@@ -61,7 +48,7 @@ class Gallery extends Component {
         });
     } else {
       fetch(
-        `https://pokeapi.co/api/v2/pokemon-species/?offset=0&limit=${GalleryPage.itemCount}`
+        `${Api.baseUrl}${Api.speciesEndpoint}?offset=0&limit=${GalleryPage.itemCount}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -75,23 +62,7 @@ class Gallery extends Component {
 
           Promise.all(pokemonPromises)
             .then((pokemonData) => {
-              const pokemonCards = pokemonData.map(
-                (pokemon: PokemonSpeciesResponseData) => (
-                  <SmallCard
-                    key={pokemon.id}
-                    name={pokemon.name}
-                    description={
-                      pokemon.flavor_text_entries
-                        .find((entry) => entry.language.name === 'en')
-                        ?.flavor_text.replace(/\f/g, ' ') ||
-                      'No description available.'
-                    }
-                  />
-                )
-              );
-              this.setState({
-                pokemonCards: pokemonCards,
-              });
+              this.setPokemonCards(pokemonData);
             })
             .catch((error) => {
               console.error(
@@ -105,6 +76,25 @@ class Gallery extends Component {
         });
     }
   };
+
+  setPokemonCards(pokemonData: PokemonSpeciesResponseData[]) {
+    const pokemonCards = pokemonData.map(
+      (pokemon: PokemonSpeciesResponseData) => (
+        <SmallCard
+          key={pokemon.id}
+          name={pokemon.name}
+          description={
+            pokemon.flavor_text_entries
+              .find((entry) => entry.language.name === 'en')
+              ?.flavor_text.replace(/\f/g, ' ') || 'No description available.'
+          }
+        />
+      )
+    );
+    this.setState({
+      pokemonCards: pokemonCards,
+    });
+  }
 
   componentDidMount() {
     this.updateGallery();
