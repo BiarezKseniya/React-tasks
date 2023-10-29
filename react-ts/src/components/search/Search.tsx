@@ -17,7 +17,7 @@ class Search extends Component {
   };
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchValue: e.target.value.trim().toLowerCase() });
+    this.setState({ searchValue: e.target.value });
   };
   render() {
     return (

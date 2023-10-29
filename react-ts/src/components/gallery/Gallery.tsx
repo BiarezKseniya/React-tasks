@@ -19,7 +19,11 @@ class Gallery extends Component {
     this.setState({ error: null, isLoading: true });
     const searchValue = localStorage.getItem('searchValue');
     if (searchValue) {
-      fetch(`${Api.baseUrl}${Api.speciesEndpoint}${searchValue}/`)
+      fetch(
+        `${Api.baseUrl}${Api.speciesEndpoint}${searchValue
+          .trim()
+          .toLowerCase()}/`
+      )
         .then((response) => {
           if (!response.ok) {
             let error;
