@@ -8,9 +8,14 @@
   border: 1px var(--secondary-color) solid;
   border-radius: 5px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .small-card__name {
   font-size: 1.5rem;
   text-transform: capitalize;
+}
+
+.small-card:hover:has(:not(.skeleton)) {
+  background-color: var(--secondary-color);
 }

@@ -12,13 +12,30 @@ class Gallery extends Component {
   state = {
     isLoading: true,
     pokemonCards: [],
+    error: null || { message: '' },
   };
 
   updateGallery = () => {
+    this.setState({ error: null, isLoading: true });
     const searchValue = localStorage.getItem('searchValue');
     if (searchValue) {
       fetch(`https://pokeapi.co/api/v2/pokemon-species/${searchValue}/`)
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            if (response.status === 404) {
+              this.setState({
+                error: new Error(
+                  `Unfortunately, there is no result for your search "${searchValue}". Try other search!`
+                ),
+              });
+            } else {
+              throw new Error(
+                `API request failed with status: ${response.status}`
+              );
+            }
+          }
+          return response.json();
+        })
         .then((pokemon: PokemonSpeciesResponseData) => {
           const pokemonCard = (
             <SmallCard
@@ -36,11 +53,8 @@ class Gallery extends Component {
             pokemonCards: [pokemonCard],
           });
         })
-        .catch((error) => {
-          console.error(
-            'An error occurred while fetching the pokemon data:',
-            error
-          );
+        .catch(() => {
+          //Nothing to be done here
         })
         .finally(() => {
           this.setState({ isLoading: false });
@@ -102,16 +116,22 @@ class Gallery extends Component {
   }
 
   render() {
-    const pageSize = GalleryPage.itemCount;
+    const pageSize = this.state.pokemonCards.length || GalleryPage.itemCount;
     return (
       <div className="gallery">
         <h2 className="gallery__header">Pokemon Collection</h2>
         <div className="gallery__page">
-          {this.state.isLoading
-            ? [...Array(pageSize)].map((_, index) => (
-                <SmallCardSkeleton key={index} />
-              ))
-            : this.state.pokemonCards}
+          {this.state.error ? (
+            <div className="gallery__error-message">
+              {this.state.error.message}
+            </div>
+          ) : this.state.isLoading ? (
+            [...Array(pageSize)].map((emptyElement, index) => (
+              <SmallCardSkeleton key={index} />
+            ))
+          ) : (
+            this.state.pokemonCards
+          )}
         </div>
       </div>
     );
