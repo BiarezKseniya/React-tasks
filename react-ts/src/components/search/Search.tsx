@@ -1,38 +1,44 @@
 import SearchIcon from '../icons/SearchIcon';
 import './Search.css';
-import { Component } from 'react';
+import { useState, useCallback } from 'react';
 
-class Search extends Component {
-  state = {
-    searchValue: localStorage.getItem('searchValue') || '',
-  };
+const Search = () => {
+  const [searchValue, setSearchValue] = useState(
+    localStorage.getItem('searchValue') || ''
+  );
 
-  handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const { searchValue } = this.state;
-    localStorage.setItem('searchValue', searchValue);
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      localStorage.setItem('searchValue', searchValue);
 
-    const event = new CustomEvent('searchValueChange', { detail: searchValue });
-    window.dispatchEvent(event);
-  };
+      const event = new CustomEvent('searchValueChange', {
+        detail: searchValue,
+      });
+      window.dispatchEvent(event);
+    },
+    [searchValue]
+  );
 
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchValue: e.target.value });
-  };
-  render() {
-    return (
-      <form className="search" onSubmit={this.handleSubmit}>
-        <input
-          value={this.state.searchValue}
-          className="search__input"
-          type="text"
-          placeholder="Pokemon name or pokedex number..."
-          onChange={this.handleInputChange}
-        />
-        <SearchIcon onClick={this.handleSubmit} />
-      </form>
-    );
-  }
-}
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchValue(e.target.value);
+    },
+    []
+  );
+
+  return (
+    <form className="search" onSubmit={handleSubmit}>
+      <input
+        value={searchValue}
+        className="search__input"
+        type="text"
+        placeholder="Pokemon name or pokedex number..."
+        onChange={handleInputChange}
+      />
+      <SearchIcon onClick={handleSubmit} />
+    </form>
+  );
+};
 
 export default Search;

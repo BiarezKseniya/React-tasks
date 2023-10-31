@@ -21,8 +21,7 @@
   color: var(--secondary-color);
 }
 
-.search__icon,
-.clear__icon {
+.search__icon {
   position: absolute;
   width: 1.7rem;
   height: 1.7rem;
@@ -35,8 +34,7 @@
 }
 
 @media (hover: hover) {
-  .search__icon:hover,
-  .clear__icon:hover {
+  .search__icon:hover {
     color: var(--contrast-color);
   }
 }

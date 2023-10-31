@@ -6,17 +6,35 @@ import {
 import SmallCardSkeleton from '../skeletons/SmallCardSkeleton';
 import SmallCard from '../small-card/SmallCard';
 import './Gallery.css';
-import { Component } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 
-class Gallery extends Component {
-  state = {
-    isLoading: true,
-    pokemonCards: [],
-    error: null || { message: '' },
+const Gallery = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [pokemonCards, setPokemonCards] = useState<ReactNode[]>([]);
+  const [error, setError] = useState({ message: '' });
+
+  const setPokemonCardsContent = (
+    pokemonData: PokemonSpeciesResponseData[]
+  ) => {
+    const pokemonCards = pokemonData.map(
+      (pokemon: PokemonSpeciesResponseData) => (
+        <SmallCard
+          key={pokemon.id}
+          name={pokemon.name}
+          description={
+            pokemon.flavor_text_entries
+              .find((entry) => entry.language.name === 'en')
+              ?.flavor_text.replace(/\f/g, ' ') || 'No description available.'
+          }
+        />
+      )
+    );
+    setPokemonCards(pokemonCards);
   };
 
-  updateGallery = () => {
-    this.setState({ error: null, isLoading: true });
+  const updateGallery = useCallback(() => {
+    setIsLoading(true);
+    setError({ message: '' });
     const searchValue = localStorage.getItem('searchValue');
     if (searchValue) {
       fetch(
@@ -31,7 +49,7 @@ class Gallery extends Component {
               error = new Error(
                 `Unfortunately, there is no result for your search "${searchValue}". Try other search!`
               );
-              this.setState({ error: error });
+              setError(error);
             } else {
               error = new Error(
                 `API request failed with status: ${response.status}`
@@ -42,13 +60,13 @@ class Gallery extends Component {
           return response.json();
         })
         .then((pokemon: PokemonSpeciesResponseData) => {
-          this.setPokemonCards([pokemon]);
+          setPokemonCardsContent([pokemon]);
         })
         .catch(() => {
           //Nothing to be done here
         })
         .finally(() => {
-          this.setState({ isLoading: false });
+          setIsLoading(false);
         });
     } else {
       fetch(
@@ -66,7 +84,7 @@ class Gallery extends Component {
 
           Promise.all(pokemonPromises)
             .then((pokemonData) => {
-              this.setPokemonCards(pokemonData);
+              setPokemonCardsContent(pokemonData);
             })
             .catch((error) => {
               console.error(
@@ -75,61 +93,38 @@ class Gallery extends Component {
               );
             })
             .finally(() => {
-              this.setState({ isLoading: false });
+              setIsLoading(false);
             });
         });
     }
-  };
+  }, []);
 
-  setPokemonCards(pokemonData: PokemonSpeciesResponseData[]) {
-    const pokemonCards = pokemonData.map(
-      (pokemon: PokemonSpeciesResponseData) => (
-        <SmallCard
-          key={pokemon.id}
-          name={pokemon.name}
-          description={
-            pokemon.flavor_text_entries
-              .find((entry) => entry.language.name === 'en')
-              ?.flavor_text.replace(/\f/g, ' ') || 'No description available.'
-          }
-        />
-      )
-    );
-    this.setState({
-      pokemonCards: pokemonCards,
-    });
-  }
+  useEffect(() => {
+    updateGallery();
+    window.addEventListener('searchValueChange', updateGallery);
 
-  componentDidMount() {
-    this.updateGallery();
-    window.addEventListener('searchValueChange', this.updateGallery);
-  }
+    return () => {
+      window.removeEventListener('searchValueChange', updateGallery);
+    };
+  }, [updateGallery]);
 
-  componentWillUnmount() {
-    window.removeEventListener('searchValueChange', this.updateGallery);
-  }
-
-  render() {
-    const pageSize = this.state.pokemonCards.length || GalleryPage.itemCount;
-    return (
-      <div className="gallery">
-        <h2 className="gallery__header">Pokemon Collection</h2>
-        <div className="gallery__page">
-          {this.state.error ? (
-            <div className="gallery__error-message">
-              {this.state.error.message}
-            </div>
-          ) : this.state.isLoading ? (
-            [...Array(pageSize)].map((emptyElement, index) => (
-              <SmallCardSkeleton key={index} />
-            ))
-          ) : (
-            this.state.pokemonCards
-          )}
-        </div>
+  const pageSize = pokemonCards.length || GalleryPage.itemCount;
+  return (
+    <div className="gallery">
+      <h2 className="gallery__header">Pokemon Collection</h2>
+      <div className="gallery__page">
+        {error.message ? (
+          <div className="gallery__error-message">{error.message}</div>
+        ) : isLoading ? (
+          [...Array(pageSize)].map((emptyElement, index) => (
+            <SmallCardSkeleton key={index} />
+          ))
+        ) : (
+          pokemonCards
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Gallery;
