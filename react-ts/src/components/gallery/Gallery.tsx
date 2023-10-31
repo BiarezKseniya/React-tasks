@@ -1,8 +1,6 @@
-import { Api, GalleryPage } from '../../util/enums';
-import {
-  PokemonListItemResponseData,
-  PokemonSpeciesResponseData,
-} from '../../util/interfaces';
+import { fetchPokemonSearch, fetchPokemonList } from '../../services/api';
+import { GalleryPage } from '../../util/enums';
+import { PokemonSpeciesResponseData } from '../../util/interfaces';
 import SmallCardSkeleton from '../skeletons/SmallCardSkeleton';
 import SmallCard from '../small-card/SmallCard';
 import './Gallery.css';
@@ -33,70 +31,30 @@ const Gallery = () => {
   };
 
   const updateGallery = useCallback(() => {
-    setIsLoading(true);
-    setError({ message: '' });
-    const searchValue = localStorage.getItem('searchValue');
-    if (searchValue) {
-      fetch(
-        `${Api.baseUrl}${Api.speciesEndpoint}${searchValue
-          .trim()
-          .toLowerCase()}/`
-      )
-        .then((response) => {
-          if (!response.ok) {
-            let error;
-            if (response.status === 404) {
-              error = new Error(
-                `Unfortunately, there is no result for your search "${searchValue}". Try other search!`
-              );
-              setError(error);
-            } else {
-              error = new Error(
-                `API request failed with status: ${response.status}`
-              );
-            }
-            throw error;
-          }
-          return response.json();
-        })
-        .then((pokemon: PokemonSpeciesResponseData) => {
-          setPokemonCardsContent([pokemon]);
-        })
-        .catch(() => {
-          //Nothing to be done here
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else {
-      fetch(
-        `${Api.baseUrl}${Api.speciesEndpoint}?offset=0&limit=${GalleryPage.itemCount}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          const pokemonURLs = data.results.map(
-            (pokemon: PokemonListItemResponseData) => pokemon.url
-          );
+    const fetchData = async () => {
+      setIsLoading(true);
+      setError({ message: '' });
+      try {
+        const searchValue = localStorage.getItem('searchValue');
+        let data;
+        if (searchValue) {
+          data = await fetchPokemonSearch(searchValue);
+        } else {
+          data = await fetchPokemonList();
+        }
+        if (data) {
+          setPokemonCardsContent(data);
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          setError({ message: error.message });
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-          const pokemonPromises = pokemonURLs.map((url: string) =>
-            fetch(url).then((response) => response.json())
-          );
-
-          Promise.all(pokemonPromises)
-            .then((pokemonData) => {
-              setPokemonCardsContent(pokemonData);
-            })
-            .catch((error) => {
-              console.error(
-                'An error occurred while fetching the pokemon data:',
-                error
-              );
-            })
-            .finally(() => {
-              setIsLoading(false);
-            });
-        });
-    }
+    fetchData();
   }, []);
 
   useEffect(() => {
