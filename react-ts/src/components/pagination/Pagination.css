@@ -1,0 +1,23 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.pagination button:disabled {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  cursor: not-allowed;
+}
+
+@media (hover: hover) {
+  .pagination button:not(:disabled):hover {
+    background-color: var(--secondary-color);
+  }
+}

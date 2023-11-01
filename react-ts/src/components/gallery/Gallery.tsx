@@ -1,6 +1,7 @@
 import { fetchPokemonSearch, fetchPokemonList } from '../../services/api';
 import { GalleryPage } from '../../util/enums';
 import { PokemonSpeciesResponseData } from '../../util/interfaces';
+import Pagination from '../pagination/Pagination';
 import SmallCardSkeleton from '../skeletons/SmallCardSkeleton';
 import SmallCard from '../small-card/SmallCard';
 import './Gallery.css';
@@ -10,6 +11,8 @@ const Gallery = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pokemonCards, setPokemonCards] = useState<ReactNode[]>([]);
   const [error, setError] = useState({ message: '' });
+  const [offset, setOffset] = useState(0);
+  const [totalResults, setTotalResults] = useState(0);
 
   const setPokemonCardsContent = (
     pokemonData: PokemonSpeciesResponseData[]
@@ -40,10 +43,14 @@ const Gallery = () => {
         if (searchValue) {
           data = await fetchPokemonSearch(searchValue);
         } else {
-          data = await fetchPokemonList();
+          data = await fetchPokemonList(offset, GalleryPage.itemCount);
         }
         if (data) {
-          setPokemonCardsContent(data);
+          setPokemonCardsContent(await data.pokemonData);
+          if (data.totalResults === 1) {
+            setOffset(0);
+          }
+          setTotalResults(data.totalResults);
         }
       } catch (error) {
         if (error instanceof Error) {
@@ -55,7 +62,7 @@ const Gallery = () => {
     };
 
     fetchData();
-  }, []);
+  }, [offset]);
 
   useEffect(() => {
     updateGallery();
@@ -78,7 +85,15 @@ const Gallery = () => {
             <SmallCardSkeleton key={index} />
           ))
         ) : (
-          pokemonCards
+          <>
+            {pokemonCards}
+            <Pagination
+              limit={GalleryPage.itemCount}
+              offset={offset}
+              totalResults={totalResults}
+              setOffset={setOffset}
+            />
+          </>
         )}
       </div>
     </div>

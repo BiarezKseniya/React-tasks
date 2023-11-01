@@ -23,6 +23,7 @@ button {
   padding: 10px;
   color: var(--contrast-color);
   font-family: var(--main-font);
+  cursor: pointer;
   transition: 0.3s;
 }
 

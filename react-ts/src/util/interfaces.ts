@@ -42,3 +42,10 @@ export interface ErrorBoundaryProps {
 export interface ErrorBoundaryState {
   hasError: boolean;
 }
+
+export interface PaginationProps {
+  totalResults: number;
+  offset: number;
+  limit: number;
+  setOffset: (offset: number) => void;
+}

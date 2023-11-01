@@ -1,9 +1,9 @@
-import { Api, GalleryPage } from '../util/enums';
+import { Api } from '../util/enums';
 import { PokemonListItemResponseData } from '../util/interfaces';
 
-export async function fetchPokemonList() {
+export async function fetchPokemonList(offset: number, limit: number) {
   return await fetch(
-    `${Api.baseUrl}${Api.speciesEndpoint}?offset=0&limit=${GalleryPage.itemCount}`
+    `${Api.baseUrl}${Api.speciesEndpoint}?offset=${offset}&limit=${limit}`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -15,7 +15,10 @@ export async function fetchPokemonList() {
         fetch(url).then((response) => response.json())
       );
 
-      return Promise.all(pokemonPromises);
+      return {
+        totalResults: data.count,
+        pokemonData: Promise.all(pokemonPromises),
+      };
     })
     .catch((error) => {
       console.log('An error occurred while fetching the pokemon data:', error);
@@ -33,7 +36,10 @@ export async function fetchPokemonSearch(searchValue: string) {
       notFound = true;
     }
     const data = await response.json();
-    return [data];
+    return {
+      totalResults: 1,
+      pokemonData: [data],
+    };
   } catch (error) {
     if (notFound) {
       throw new Error(errorMessage);
