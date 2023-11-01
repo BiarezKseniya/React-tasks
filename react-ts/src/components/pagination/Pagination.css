@@ -4,7 +4,13 @@
   align-items: center;
 }
 
-.pagination button {
+.pagination__current-page {
+  border-radius: 5px;
+  border: 1px var(--secondary-color) solid;
+}
+
+.pagination button,
+.pagination__current-page {
   margin: 0 5px;
   padding: 10px 20px;
   font-size: 1rem;

@@ -1,5 +1,8 @@
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PaginationProps } from '../../util/interfaces';
 import './Pagination.css';
+import PaginationButton from './PaginationButton';
+import { useEffect } from 'react';
 
 const Pagination = ({
   totalResults,
@@ -7,7 +10,27 @@ const Pagination = ({
   limit,
   setOffset,
 }: PaginationProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const totalPages = Math.ceil(totalResults / limit);
+  const currentPage = offset / limit + 1;
+
+  useEffect(() => {
+    if (offset === 0) {
+      navigate('/?page=1');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const page = Number(params.get('page'));
+
+    if (page) {
+      setOffset((page - 1) * limit);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search, limit]);
 
   const handleStartClick = () => setOffset(0);
   const handlePrevClick = () => setOffset(Math.max(offset - limit, 0));
@@ -17,35 +40,35 @@ const Pagination = ({
 
   return (
     <div className="pagination">
-      <button
-        className="pagination__start-button"
+      <PaginationButton
+        to={`/?page=1`}
         onClick={handleStartClick}
         disabled={offset === 0}
       >
         &lt;&lt;
-      </button>
-      <button
-        className="pagination__prev-button"
+      </PaginationButton>
+      <PaginationButton
+        to={`/?page=${currentPage - 1}`}
         onClick={handlePrevClick}
         disabled={offset === 0}
       >
         &lt;
-      </button>
-      <button className="pagination__current-page">{offset / limit + 1}</button>
-      <button
-        className="pagination__next-button"
+      </PaginationButton>
+      <span className="pagination__current-page">{offset / limit + 1}</span>
+      <PaginationButton
+        to={`/?page=${currentPage + 1}`}
         onClick={handleNextClick}
         disabled={offset + limit >= totalResults}
       >
         &gt;
-      </button>
-      <button
-        className="pagination__end-button"
+      </PaginationButton>
+      <PaginationButton
+        to={`/?page=${totalPages}`}
         onClick={handleEndClick}
         disabled={offset + limit >= totalResults}
       >
         &gt;&gt;
-      </button>
+      </PaginationButton>
     </div>
   );
 };
