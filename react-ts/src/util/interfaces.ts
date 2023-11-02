@@ -45,7 +45,7 @@ export interface ErrorBoundaryState {
 
 export interface PaginationProps {
   totalResults: number;
-  offset: number;
+  currentPage: number;
   limit: number;
-  setOffset: (offset: number) => void;
+  setCurrentPage: (currentPage: number) => void;
 }

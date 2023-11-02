@@ -10,6 +10,13 @@
   font-size: 1.7rem;
 }
 
+.gallery__results {
+  display: flex;
+  gap: 15px;
+  padding: 10px 0;
+  font-size: 1rem;
+}
+
 .gallery__page {
   display: flex;
   flex-direction: column;

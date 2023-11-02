@@ -1,8 +1,18 @@
 import Gallery from './components/gallery/Gallery';
 import Header from './components/header/Header';
 import './App.css';
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 const App = () => {
+  const [urlParams, setUrlParams] = useSearchParams();
+
+  useEffect(() => {
+    if (!urlParams.has('page')) {
+      setUrlParams({ page: '1' });
+    }
+  }, [urlParams, setUrlParams]);
+
   return (
     <>
       <Header />

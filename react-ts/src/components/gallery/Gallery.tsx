@@ -1,6 +1,8 @@
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { fetchPokemonSearch, fetchPokemonList } from '../../services/api';
 import { GalleryPage } from '../../util/enums';
 import { PokemonSpeciesResponseData } from '../../util/interfaces';
+import PageSizeSelect from '../page-size-select/PageSizeSelect';
 import Pagination from '../pagination/Pagination';
 import SmallCardSkeleton from '../skeletons/SmallCardSkeleton';
 import SmallCard from '../small-card/SmallCard';
@@ -11,8 +13,14 @@ const Gallery = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pokemonCards, setPokemonCards] = useState<ReactNode[]>([]);
   const [error, setError] = useState({ message: '' });
-  const [offset, setOffset] = useState(0);
   const [totalResults, setTotalResults] = useState(0);
+  const [pageSize, setPageSize] = useState(GalleryPage.itemCount);
+
+  const urlParams = new URLSearchParams(useLocation().search);
+  const [currentPage, setCurrentPage] = useState(
+    urlParams.get('page') ? Number(urlParams.get('page')) : 1
+  );
+  const [, setUrlParams] = useSearchParams();
 
   const setPokemonCardsContent = (
     pokemonData: PokemonSpeciesResponseData[]
@@ -43,12 +51,13 @@ const Gallery = () => {
         if (searchValue) {
           data = await fetchPokemonSearch(searchValue);
         } else {
-          data = await fetchPokemonList(offset, GalleryPage.itemCount);
+          const offset = (currentPage - 1) * pageSize;
+          data = await fetchPokemonList(offset, pageSize);
         }
         if (data) {
           setPokemonCardsContent(await data.pokemonData);
           if (data.totalResults === 1) {
-            setOffset(0);
+            setCurrentPage(1);
           }
           setTotalResults(data.totalResults);
         }
@@ -62,7 +71,7 @@ const Gallery = () => {
     };
 
     fetchData();
-  }, [offset]);
+  }, [currentPage, pageSize]);
 
   useEffect(() => {
     updateGallery();
@@ -73,25 +82,38 @@ const Gallery = () => {
     };
   }, [updateGallery]);
 
-  const pageSize = pokemonCards.length || GalleryPage.itemCount;
+  useEffect(() => {
+    setUrlParams({ page: String(currentPage) });
+  }, [currentPage, setUrlParams]);
+
+  const loaderSize = pokemonCards.length || pageSize;
   return (
     <div className="gallery">
       <h2 className="gallery__header">Pokemon Collection</h2>
+      <div className="gallery__results">
+        <div>Total: {totalResults}</div>
+        <PageSizeSelect
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
+
       <div className="gallery__page">
         {error.message ? (
           <div className="gallery__error-message">{error.message}</div>
         ) : isLoading ? (
-          [...Array(pageSize)].map((emptyElement, index) => (
+          [...Array(loaderSize)].map((emptyElement, index) => (
             <SmallCardSkeleton key={index} />
           ))
         ) : (
           <>
             {pokemonCards}
             <Pagination
-              limit={GalleryPage.itemCount}
-              offset={offset}
+              limit={pageSize}
+              currentPage={currentPage}
               totalResults={totalResults}
-              setOffset={setOffset}
+              setCurrentPage={setCurrentPage}
             />
           </>
         )}
