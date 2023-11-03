@@ -8,7 +8,7 @@ const App = () => {
   const [urlParams, setUrlParams] = useSearchParams();
 
   useEffect(() => {
-    if (!urlParams.has('page')) {
+    if (!urlParams.has('page') && !urlParams.has('front-page')) {
       setUrlParams({ page: '1' });
     }
   }, [urlParams, setUrlParams]);

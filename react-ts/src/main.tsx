@@ -14,7 +14,7 @@ import ModalOutlet from './components/modal-outlet/ModalOutlet';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index element={<ModalOutlet />}></Route>
+      <Route path="modal" element={<ModalOutlet />}></Route>
     </Route>
   )
 );

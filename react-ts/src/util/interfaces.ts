@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 export interface SmallCardProps {
+  id: number;
   name: string;
   description: string;
 }

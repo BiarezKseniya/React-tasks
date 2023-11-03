@@ -5,4 +5,5 @@ export enum GalleryPage {
 export enum Api {
   baseUrl = 'https://pokeapi.co/api/v2/',
   speciesEndpoint = 'pokemon-species/',
+  pokemonEndpoint = 'pokemon/',
 }

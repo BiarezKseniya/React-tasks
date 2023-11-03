@@ -48,3 +48,15 @@ export async function fetchPokemonSearch(searchValue: string) {
     }
   }
 }
+
+export async function fetchPokemonDetails(pokemonId: string) {
+  try {
+    const response = await fetch(
+      `${Api.baseUrl}${Api.pokemonEndpoint}${pokemonId}/`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('An error occurred while fetching the pokemon details:', error);
+  }
+}

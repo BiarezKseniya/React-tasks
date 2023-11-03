@@ -17,9 +17,19 @@ const Gallery = () => {
   const [pageSize, setPageSize] = useState(GalleryPage.itemCount);
 
   const urlParams = new URLSearchParams(useLocation().search);
-  const [currentPage, setCurrentPage] = useState(
-    urlParams.get('page') ? Number(urlParams.get('page')) : 1
-  );
+  const frontPageParam = urlParams.get('front-page');
+  const [oldPageValue, setOldPageValue] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const pageParam = Number(urlParams.get('page'));
+    if (pageParam) {
+      setOldPageValue(pageParam);
+      return pageParam;
+    } else if (frontPageParam) {
+      return oldPageValue;
+    } else {
+      return 1;
+    }
+  });
   const [, setUrlParams] = useSearchParams();
 
   const setPokemonCardsContent = (
@@ -29,6 +39,7 @@ const Gallery = () => {
       (pokemon: PokemonSpeciesResponseData) => (
         <SmallCard
           key={pokemon.id}
+          id={pokemon.id}
           name={pokemon.name}
           description={
             pokemon.flavor_text_entries
@@ -83,8 +94,10 @@ const Gallery = () => {
   }, [updateGallery]);
 
   useEffect(() => {
-    setUrlParams({ page: String(currentPage) });
-  }, [currentPage, setUrlParams]);
+    if (!frontPageParam) {
+      setUrlParams({ page: String(currentPage) });
+    }
+  }, [currentPage, frontPageParam, setUrlParams]);
 
   const loaderSize = pokemonCards.length || pageSize;
   return (

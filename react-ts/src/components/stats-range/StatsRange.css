@@ -5,6 +5,7 @@
 }
 
 .stats-range__label {
+  text-transform: capitalize;
   flex: 1;
 }
 
@@ -14,6 +15,12 @@
 }
 
 @media (max-width: 690px) {
+  .stats-range {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
   .stats-range__range {
     width: 250px;
     height: 10px;
@@ -21,7 +28,10 @@
 }
 
 @media (max-width: 480px) {
+  .stats-range {
+    width: 100%;
+  }
   .stats-range__range {
-    width: auto;
+    width: 100%;
   }
 }

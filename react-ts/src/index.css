@@ -27,6 +27,11 @@ button {
   transition: 0.3s;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 input[type='range'] {
   appearance: none;
   -webkit-appearance: none;
