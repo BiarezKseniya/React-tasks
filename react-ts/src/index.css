@@ -27,6 +27,34 @@ button {
   transition: 0.3s;
 }
 
+input[type='range'] {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 0;
+  width: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+input[type='range']::-moz-range-thumb {
+  height: 0;
+  width: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  border-radius: 5px;
+}
+
 @media (max-width: 992px) {
   html {
     font-size: 16px;

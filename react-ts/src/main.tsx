@@ -9,9 +9,14 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
+import ModalOutlet from './components/modal-outlet/ModalOutlet';
 
 const router = createBrowserRouter(
-  createRoutesFromElements(<Route path="/" element={<App />} />)
+  createRoutesFromElements(
+    <Route path="/" element={<App />}>
+      <Route index element={<ModalOutlet />}></Route>
+    </Route>
+  )
 );
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

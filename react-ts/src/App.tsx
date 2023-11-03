@@ -2,7 +2,7 @@ import Gallery from './components/gallery/Gallery';
 import Header from './components/header/Header';
 import './App.css';
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
 const App = () => {
   const [urlParams, setUrlParams] = useSearchParams();
@@ -18,6 +18,7 @@ const App = () => {
       <Header />
       <main>
         <Gallery />
+        <Outlet />
       </main>
     </>
   );
