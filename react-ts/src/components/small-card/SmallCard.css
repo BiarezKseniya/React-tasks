@@ -24,7 +24,7 @@
 }
 
 @media (hover: hover) {
-  .small-card:hover:has(:not(.skeleton)) {
+  .small-card:hover {
     background-color: var(--secondary-color);
   }
 }

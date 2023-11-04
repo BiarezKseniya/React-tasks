@@ -3,6 +3,8 @@ import StatsRange from '../stats-range/StatsRange';
 import { useCallback, useEffect, useState } from 'react';
 import { fetchPokemonDetails } from '../../services/api';
 import { useLocation } from 'react-router';
+import DetailedCardSkeleton from '../skeletons/DetailedCardSkeleton';
+import ImageWithLoader from '../image-with-loader/ImageWithLoader';
 
 interface PokemonDetailedData {
   name: string;
@@ -50,14 +52,14 @@ const DetailedCard = () => {
   }, [getPokemonData]);
 
   if (!pokemonData) {
-    return <div>Loading...</div>;
+    return <DetailedCardSkeleton />;
   }
 
   return (
     <div className="detailed-card">
       <h2 className="detailed-card__header">{pokemonData.name}</h2>
-      <img
-        className="detailed-card__image"
+      <ImageWithLoader
+        className="detailed-card__image-wrapper"
         src={pokemonData.sprites.other['official-artwork'].front_default}
         alt={`Picture of ${pokemonData.name}`}
       />

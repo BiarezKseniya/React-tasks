@@ -1,11 +1,24 @@
+.detailed-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .detailed-card__header {
   text-transform: capitalize;
   font-size: 1.7rem;
 }
 
-.detailed-card__image {
+.detailed-card__image-wrapper {
   width: 375px;
   height: 375px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.detailed-card__image-wrapper img {
+  width: 100%;
+  height: 100%;
 }
 
 .detailed-card__info {
@@ -26,7 +39,7 @@
 }
 
 @media (max-width: 1280px) {
-  .detailed-card__image {
+  .detailed-card__image-wrapper {
     width: 230px;
     height: 230px;
   }
@@ -37,7 +50,7 @@
 }
 
 @media (max-width: 690px) {
-  .detailed-card__image {
+  .detailed-card__image-wrapper {
     width: 200px;
     height: 200px;
   }
@@ -48,11 +61,15 @@
     width: 100%;
   }
 
+  .detailed-card__info {
+    width: 100%;
+  }
+
   .detailed-card__stats {
     width: 100%;
   }
 
-  .detailed-card__image {
+  .detailed-card__image-wrapper {
     width: 175px;
     height: 175px;
   }
