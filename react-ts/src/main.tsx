@@ -13,7 +13,14 @@ import ModalOutlet from './components/modal-outlet/ModalOutlet';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route
+      path="/"
+      element={
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
+      }
+    >
       <Route path="modal" element={<ModalOutlet />}></Route>
     </Route>
   )
@@ -21,8 +28,6 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <RouterProvider router={router} />
-    </ErrorBoundary>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
