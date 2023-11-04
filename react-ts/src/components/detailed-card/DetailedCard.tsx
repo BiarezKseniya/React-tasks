@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { fetchPokemonDetails } from '../../services/api';
 import { useLocation } from 'react-router';
 import DetailedCardSkeleton from '../skeletons/DetailedCardSkeleton';
-import ImageWithLoader from '../image-with-loader/ImageWithLoader';
+import ImageWithLoader from '../detailed-card-image/ImageWithLoader';
 
 interface PokemonDetailedData {
   name: string;

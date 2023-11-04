@@ -10,6 +10,9 @@
 }
 
 .detailed-card__image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 375px;
   height: 375px;
   margin: 0 auto;
