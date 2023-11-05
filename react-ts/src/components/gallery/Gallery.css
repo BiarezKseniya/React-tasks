@@ -12,6 +12,7 @@
 
 .gallery__results {
   display: flex;
+  align-items: center;
   gap: 15px;
   padding: 10px 0;
   font-size: 1rem;

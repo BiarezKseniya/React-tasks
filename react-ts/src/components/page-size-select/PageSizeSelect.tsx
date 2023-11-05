@@ -1,3 +1,5 @@
+import './PageSizeSelect.css';
+
 interface PageSizeSelectProps {
   pageSize: number;
   setPageSize: (pageSize: number) => void;
