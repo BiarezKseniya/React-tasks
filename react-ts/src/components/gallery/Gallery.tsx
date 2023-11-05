@@ -1,4 +1,4 @@
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { fetchPokemonSearch, fetchPokemonList } from '../../services/api';
 import { GalleryPage } from '../../util/enums';
 import { PokemonSpeciesResponseData } from '../../util/interfaces';
@@ -16,11 +16,15 @@ const Gallery = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [pageSize, setPageSize] = useState(GalleryPage.itemCount);
 
-  const urlParams = new URLSearchParams(useLocation().search);
+  const location = useLocation();
+  const urlParams = new URLSearchParams(location.search);
   const frontPageParam = urlParams.get('front-page');
   const [oldPageValue, setOldPageValue] = useState(1);
   const [currentPage, setCurrentPage] = useState(() => {
-    const pageParam = Number(urlParams.get('page'));
+    let pageParam = Number(urlParams.get('page'));
+    if (!pageParam && location.state) {
+      pageParam = location.state.page;
+    }
     if (pageParam) {
       setOldPageValue(pageParam);
       return pageParam;
@@ -31,26 +35,29 @@ const Gallery = () => {
     }
   });
   const [, setUrlParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const setPokemonCardsContent = (
-    pokemonData: PokemonSpeciesResponseData[]
-  ) => {
-    const pokemonCards = pokemonData.map(
-      (pokemon: PokemonSpeciesResponseData) => (
-        <SmallCard
-          key={pokemon.id}
-          id={pokemon.id}
-          name={pokemon.name}
-          description={
-            pokemon.flavor_text_entries
-              .find((entry) => entry.language.name === 'en')
-              ?.flavor_text.replace(/\f/g, ' ') || 'No description available.'
-          }
-        />
-      )
-    );
-    setPokemonCards(pokemonCards);
-  };
+  const setPokemonCardsContent = useCallback(
+    (pokemonData: PokemonSpeciesResponseData[]) => {
+      const pokemonCards = pokemonData.map(
+        (pokemon: PokemonSpeciesResponseData) => (
+          <SmallCard
+            key={pokemon.id}
+            id={pokemon.id}
+            name={pokemon.name}
+            description={
+              pokemon.flavor_text_entries
+                .find((entry) => entry.language.name === 'en')
+                ?.flavor_text.replace(/\f/g, ' ') || 'No description available.'
+            }
+            page={currentPage}
+          />
+        )
+      );
+      setPokemonCards(pokemonCards);
+    },
+    [currentPage]
+  );
 
   const updateGallery = useCallback(() => {
     const fetchData = async () => {
@@ -82,7 +89,7 @@ const Gallery = () => {
     };
 
     fetchData();
-  }, [currentPage, pageSize]);
+  }, [currentPage, pageSize, setPokemonCardsContent]);
 
   useEffect(() => {
     updateGallery();
@@ -95,9 +102,9 @@ const Gallery = () => {
 
   useEffect(() => {
     if (!frontPageParam) {
-      setUrlParams({ page: String(currentPage) });
+      navigate(location.pathname + `?page=${currentPage}`, { replace: true });
     }
-  }, [currentPage, frontPageParam, setUrlParams]);
+  }, [currentPage, frontPageParam, location.pathname, navigate, setUrlParams]);
 
   const loaderSize = pokemonCards.length || pageSize;
   return (

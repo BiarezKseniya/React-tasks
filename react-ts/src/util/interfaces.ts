@@ -4,6 +4,7 @@ export interface SmallCardProps {
   id: number;
   name: string;
   description: string;
+  page: number;
 }
 
 export interface PokemonListResponseData {

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PaginationButtonProps } from '../../util/interfaces';
 
 const PaginationButton = ({
@@ -6,12 +6,16 @@ const PaginationButton = ({
   onClick,
   disabled,
   children,
-}: PaginationButtonProps) => (
-  <Link to={to}>
-    <button onClick={onClick} disabled={disabled}>
+}: PaginationButtonProps) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(to, { replace: true });
+    onClick();
+  };
+  return (
+    <button onClick={handleClick} disabled={disabled}>
       {children}
     </button>
-  </Link>
-);
-
+  );
+};
 export default PaginationButton;
