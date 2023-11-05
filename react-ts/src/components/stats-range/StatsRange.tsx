@@ -28,7 +28,7 @@ const StatsRange = ({ skillName, skillValue }: StatsRangeProps) => {
         type="range"
         value={skillValue}
         min={0}
-        max={100}
+        max={255}
         step={1}
         readOnly
       />
