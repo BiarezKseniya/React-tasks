@@ -1,10 +1,6 @@
 import { useEffect, useRef } from 'react';
 import './StatsRange.css';
-
-interface StatsRangeProps {
-  skillName: string;
-  skillValue: number;
-}
+import { StatsRangeProps } from '../../util/interfaces';
 
 const StatsRange = ({ skillName, skillValue }: StatsRangeProps) => {
   const rangeRef = useRef<HTMLInputElement>(null);

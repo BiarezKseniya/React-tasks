@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react';
 import Skeleton from '../skeletons/Skeleton';
 import NotFoundImage from './ImageNotFound';
-
-interface ImageWithLoaderProps {
-  src: string;
-  alt: string;
-  className: string;
-}
+import { ImageWithLoaderProps } from '../../util/interfaces';
 
 const ImageWithLoader = ({ src, alt, className }: ImageWithLoaderProps) => {
   const [isImageLoading, setImageLoading] = useState(true);

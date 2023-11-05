@@ -5,27 +5,7 @@ import { fetchPokemonDetails } from '../../services/api';
 import { useLocation } from 'react-router';
 import DetailedCardSkeleton from '../skeletons/DetailedCardSkeleton';
 import ImageWithLoader from '../detailed-card-image/ImageWithLoader';
-
-interface PokemonDetailedData {
-  name: string;
-  weight: number;
-  stats: PokemonStat[];
-  sprites: {
-    other: {
-      'official-artwork': {
-        front_default: string;
-      };
-    };
-  };
-}
-
-interface PokemonStat {
-  base_stat: number;
-  stat: {
-    name: string;
-    url: string;
-  };
-}
+import { PokemonDetailedData } from '../../util/interfaces';
 
 const DetailedCard = () => {
   const urlParams = new URLSearchParams(useLocation().search);

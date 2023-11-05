@@ -1,16 +1,12 @@
+import { PageSizeSelectProps } from '../../util/interfaces';
 import './PageSizeSelect.css';
-
-interface PageSizeSelectProps {
-  pageSize: number;
-  setPageSize: (pageSize: number) => void;
-  setCurrentPage: (currentPage: number) => void;
-}
 
 const PageSizeSelect = ({
   pageSize,
   setPageSize,
   setCurrentPage,
 }: PageSizeSelectProps) => {
+  const options = [5, 10, 15, 20];
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPageSize(Number(e.target.value));
     setCurrentPage(1);
@@ -19,11 +15,12 @@ const PageSizeSelect = ({
   return (
     <div className="page-size">
       <label>Page size: </label>
-      <select id="page-size" value={pageSize} onChange={(e) => handleChange(e)}>
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="15">15</option>
-        <option value="20">20</option>
+      <select id="page-size" value={pageSize} onChange={handleChange}>
+        {options.map((option) => (
+          <option key={option} value={option.toString()}>
+            {option}
+          </option>
+        ))}
       </select>
     </div>
   );

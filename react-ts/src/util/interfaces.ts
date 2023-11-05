@@ -50,3 +50,48 @@ export interface PaginationProps {
   limit: number;
   setCurrentPage: (currentPage: number) => void;
 }
+
+export interface PageSizeSelectProps {
+  pageSize: number;
+  setPageSize: (pageSize: number) => void;
+  setCurrentPage: (currentPage: number) => void;
+}
+
+export interface StatsRangeProps {
+  skillName: string;
+  skillValue: number;
+}
+
+export interface PaginationButtonProps {
+  to: string;
+  onClick: () => void;
+  disabled: boolean;
+  children: ReactNode;
+}
+
+export interface ImageWithLoaderProps {
+  src: string;
+  alt: string;
+  className: string;
+}
+
+export interface PokemonDetailedData {
+  name: string;
+  weight: number;
+  stats: PokemonStat[];
+  sprites: {
+    other: {
+      'official-artwork': {
+        front_default: string;
+      };
+    };
+  };
+}
+
+export interface PokemonStat {
+  base_stat: number;
+  stat: {
+    name: string;
+    url: string;
+  };
+}

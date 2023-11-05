@@ -1,12 +1,5 @@
-import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-
-interface PaginationButtonProps {
-  to: string;
-  onClick: () => void;
-  disabled: boolean;
-  children: ReactNode;
-}
+import { PaginationButtonProps } from '../../util/interfaces';
 
 const PaginationButton = ({
   to,
