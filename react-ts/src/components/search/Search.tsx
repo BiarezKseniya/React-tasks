@@ -1,28 +1,24 @@
+import { useSearch } from '../context/SearchContext';
 import SearchIcon from '../icons/SearchIcon';
 import './Search.css';
 import { useState, useCallback } from 'react';
 
 const Search = () => {
-  const [searchValue, setSearchValue] = useState(
-    localStorage.getItem('searchValue') || ''
-  );
+  const { searchValue, setSearchValue } = useSearch();
+  const [localSearchValue, setLocalSearchValue] = useState(searchValue);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      localStorage.setItem('searchValue', searchValue);
-
-      const event = new CustomEvent('searchValueChange', {
-        detail: searchValue,
-      });
-      window.dispatchEvent(event);
+      localStorage.setItem('searchValue', localSearchValue);
+      setSearchValue(localSearchValue);
     },
-    [searchValue]
+    [localSearchValue, setSearchValue]
   );
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchValue(e.target.value);
+      setLocalSearchValue(e.target.value);
     },
     []
   );
@@ -30,7 +26,7 @@ const Search = () => {
   return (
     <form className="search" onSubmit={handleSubmit}>
       <input
-        value={searchValue}
+        value={localSearchValue}
         className="search__input"
         type="text"
         placeholder="Pokemon name or pokedex number..."

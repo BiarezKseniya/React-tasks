@@ -8,6 +8,7 @@ import SmallCardSkeleton from '../skeletons/SmallCardSkeleton';
 import SmallCard from '../small-card/SmallCard';
 import './Gallery.css';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { useSearch } from '../context/SearchContext';
 
 const Gallery = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,6 +16,7 @@ const Gallery = () => {
   const [error, setError] = useState({ message: '' });
   const [totalResults, setTotalResults] = useState(0);
   const [pageSize, setPageSize] = useState(GalleryPage.itemCount);
+  const { searchValue } = useSearch();
 
   const location = useLocation();
   const urlParams = new URLSearchParams(location.search);
@@ -64,7 +66,6 @@ const Gallery = () => {
       setIsLoading(true);
       setError({ message: '' });
       try {
-        const searchValue = localStorage.getItem('searchValue');
         let data;
         if (searchValue) {
           data = await fetchPokemonSearch(searchValue);
@@ -89,15 +90,10 @@ const Gallery = () => {
     };
 
     fetchData();
-  }, [currentPage, pageSize, setPokemonCardsContent]);
+  }, [currentPage, pageSize, searchValue, setPokemonCardsContent]);
 
   useEffect(() => {
     updateGallery();
-    window.addEventListener('searchValueChange', updateGallery);
-
-    return () => {
-      window.removeEventListener('searchValueChange', updateGallery);
-    };
   }, [updateGallery]);
 
   useEffect(() => {
