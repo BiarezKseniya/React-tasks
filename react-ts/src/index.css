@@ -10,6 +10,12 @@ html {
   font-family: var(--main-font);
   color: var(--contrast-color);
   font-size: 18px;
+  scrollbar-gutter: stable both-edges;
+}
+
+html:has(.shadow) {
+  overflow: hidden;
+  scrollbar-gutter: auto;
 }
 
 body {
