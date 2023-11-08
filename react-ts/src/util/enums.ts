@@ -7,3 +7,8 @@ export enum Api {
   speciesEndpoint = 'pokemon-species/',
   pokemonEndpoint = 'pokemon/',
 }
+
+export enum Actions {
+  setSearchValue = 'setSearchValue',
+  setPokemonCards = 'setPokemonCards',
+}

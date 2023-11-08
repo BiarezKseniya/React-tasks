@@ -3,7 +3,7 @@ import Header from './components/header/Header';
 import './App.css';
 import { useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
-import { SearchProvider } from './components/context/SearchContext';
+import { AppProvider } from './components/context/AppState';
 
 const App = () => {
   const [urlParams, setUrlParams] = useSearchParams();
@@ -15,13 +15,13 @@ const App = () => {
   }, [urlParams, setUrlParams]);
 
   return (
-    <SearchProvider>
+    <AppProvider>
       <Header />
       <main>
         <Gallery />
         <Outlet />
       </main>
-    </SearchProvider>
+    </AppProvider>
   );
 };
 

@@ -4,7 +4,6 @@ export interface SmallCardProps {
   id: number;
   name: string;
   description: string;
-  page: number;
 }
 
 export interface PokemonListResponseData {
@@ -47,15 +46,12 @@ export interface ErrorBoundaryState {
 
 export interface PaginationProps {
   totalResults: number;
-  currentPage: number;
   limit: number;
-  setCurrentPage: (currentPage: number) => void;
 }
 
 export interface PageSizeSelectProps {
   pageSize: number;
   setPageSize: (pageSize: number) => void;
-  setCurrentPage: (currentPage: number) => void;
 }
 
 export interface StatsRangeProps {

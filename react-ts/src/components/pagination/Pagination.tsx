@@ -1,13 +1,10 @@
 import { PaginationProps } from '../../util/interfaces';
+import { usePage } from '../context/PageContext';
 import './Pagination.css';
 import PaginationButton from './PaginationButton';
 
-const Pagination = ({
-  totalResults,
-  currentPage,
-  limit,
-  setCurrentPage,
-}: PaginationProps) => {
+const Pagination = ({ totalResults, limit }: PaginationProps) => {
+  const { currentPage, setCurrentPage } = usePage();
   const totalPages = Math.ceil(totalResults / limit);
   const handleStartClick = () => setCurrentPage(1);
   const handlePrevClick = () => setCurrentPage(Math.max(currentPage - 1, 1));

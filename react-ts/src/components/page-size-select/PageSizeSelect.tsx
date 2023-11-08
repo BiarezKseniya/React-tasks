@@ -1,11 +1,9 @@
 import { PageSizeSelectProps } from '../../util/interfaces';
+import { usePage } from '../context/PageContext';
 import './PageSizeSelect.css';
 
-const PageSizeSelect = ({
-  pageSize,
-  setPageSize,
-  setCurrentPage,
-}: PageSizeSelectProps) => {
+const PageSizeSelect = ({ pageSize, setPageSize }: PageSizeSelectProps) => {
+  const { setCurrentPage } = usePage();
   const options = [5, 10, 15, 20];
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPageSize(Number(e.target.value));
