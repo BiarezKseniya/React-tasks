@@ -14,7 +14,6 @@ const DetailedCard = () => {
   const [pokemonData, setPokemonData] = useState<PokemonDetailedData | null>(
     null
   );
-
   const getPokemonData = useCallback(() => {
     const fetchData = async () => {
       if (!pokemonId) {
@@ -48,9 +47,9 @@ const DetailedCard = () => {
           Weight: {pokemonData.weight}
         </div>
         <div className="detailed-card__stats">
-          {pokemonData.stats.map((stat, index) => (
+          {pokemonData.stats.map((stat) => (
             <StatsRange
-              key={index}
+              key={stat.stat.name}
               skillName={stat.stat.name}
               skillValue={stat.base_stat}
             />
