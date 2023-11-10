@@ -6,5 +6,7 @@ export default defineConfig({
       provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
     },
+    environment: 'jsdom',
+    globals: true,
   },
 });
