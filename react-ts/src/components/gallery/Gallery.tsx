@@ -78,8 +78,10 @@ const Gallery = () => {
       </div>
 
       <div className="gallery__page">
-        {error.message ? (
-          <div className="gallery__error-message">{error.message}</div>
+        {(error.message || !pokemonCards.length) && !isLoading ? (
+          <div className="gallery__error-message">
+            {error.message || 'No cards available.'}
+          </div>
         ) : isLoading ? (
           [...Array(loaderSize)].map((emptyElement, index) => (
             <SmallCardSkeleton key={index} />
