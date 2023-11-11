@@ -1,21 +1,19 @@
 import { Dispatch, ReactNode, createContext, useReducer } from 'react';
-import { PokemonSpeciesResponseData } from '../../util/interfaces';
+import { PokemonSpeciesResponseData, State } from '../../util/interfaces';
 import SmallCard from '../small-card/SmallCard';
 import { PageProvider } from './PageContext';
-import { Actions } from '../../util/enums';
+import { Action } from '../../util/types';
 
-interface State {
-  searchValue: string;
-  pokemonCards: ReactNode[];
-}
-
-type Action =
-  | { type: Actions.setSearchValue; value: string }
-  | { type: Actions.setPokemonCards; value: PokemonSpeciesResponseData[] };
-
-const initialState: State = {
+let initialState: State = {
   searchValue: localStorage.getItem('searchValue') || '',
   pokemonCards: [],
+};
+
+export const initState = () => {
+  initialState = {
+    searchValue: localStorage.getItem('searchValue') || '',
+    pokemonCards: [],
+  };
 };
 
 function reducer(state: State, action: Action) {

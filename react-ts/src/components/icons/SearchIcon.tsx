@@ -11,6 +11,8 @@ const SearchIcon = ({ onClick }: ClickableIconProps) => {
       viewBox="0 0 30 30"
       className="search__icon"
       onClick={onClick}
+      role="button"
+      aria-label="search"
     >
       <path
         fill="currentColor"

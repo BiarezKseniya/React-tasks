@@ -92,3 +92,8 @@ export interface PokemonStat {
     url: string;
   };
 }
+
+export interface State {
+  searchValue: string;
+  pokemonCards: ReactNode[];
+}
