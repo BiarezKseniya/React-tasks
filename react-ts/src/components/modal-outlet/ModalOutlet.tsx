@@ -12,7 +12,7 @@ const ModalOutlet = () => {
   return (
     <>
       <div className="shadow" onClick={handleClose} />
-      <div className="modal">
+      <div className="modal" data-testid="modal-outlet">
         <CloseIcon onClick={handleClose} />
         <DetailedCard />
       </div>

@@ -13,6 +13,8 @@ class CloseIcon extends Component<ClickableIconProps> {
         viewBox="0 0 50 50"
         className="close__icon"
         onClick={this.props.onClick}
+        role="button"
+        aria-label="close"
       >
         <path
           fill="currentColor"
