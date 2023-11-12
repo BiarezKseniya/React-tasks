@@ -2,13 +2,30 @@ import { render, screen, waitFor } from '@testing-library/react';
 import Gallery from '../components/gallery/Gallery';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AppProvider } from '../components/context/AppState';
-import pokemonListItems from './mockData/pokemonListItems.json';
 import { Api } from '../util/enums';
+import pokemonListItems from './mockData/pokemonListItems.json';
+import pokemonListEmpty from './mockData/pokemonListEmpty.json';
+import pokemonDetails from './mockData/pokemonDetails.json';
+import pokemonItem from './mockData/pokemonItem.json';
+import { Mock } from 'vitest';
 
-global.fetch = vi
-  .fn()
-  .mockImplementationOnce(() => Promise.resolve(pokemonListItems))
-  .mockImplementationOnce(() => Promise.resolve({}));
+global.fetch = vi.fn((url) => {
+  let responseData = {};
+
+  if (url.includes(`${Api.baseUrl}${Api.pokemonEndpoint}`)) {
+    responseData = pokemonDetails;
+  } else if (
+    new RegExp(`^${Api.baseUrl}${Api.speciesEndpoint}\\d+\\/$`).test(url)
+  ) {
+    responseData = pokemonItem;
+  } else if (new RegExp(`^${Api.baseUrl}${Api.speciesEndpoint}`).test(url)) {
+    responseData = pokemonListItems;
+  }
+
+  return Promise.resolve({
+    json: () => Promise.resolve(responseData),
+  });
+}) as Mock;
 
 describe('Gallery Component', () => {
   it('renders the specified number of cards', () => {
@@ -30,6 +47,12 @@ describe('Gallery Component', () => {
   });
 
   it('displays an appropriate message when no cards are present', async () => {
+    global.fetch = vi.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(pokemonListEmpty),
+      })
+    ) as Mock;
+
     render(
       <Router>
         <AppProvider>
@@ -42,4 +65,8 @@ describe('Gallery Component', () => {
       return expect(screen.getByText('No cards available.')).toBeDefined();
     });
   });
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
 });
