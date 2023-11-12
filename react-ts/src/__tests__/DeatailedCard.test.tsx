@@ -2,31 +2,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { AppProvider } from '../components/context/AppState';
 import DetailedCard from '../components/detailed-card/DetailedCard';
-import { Mock } from 'vitest';
 import { Api } from '../util/enums';
-import pokemonListItems from './mockData/pokemonListItems.json';
-import pokemonDetails from './mockData/pokemonDetails.json';
-import pokemonItem from './mockData/pokemonItem.json';
 
 const pokemonId = 1;
-
-global.fetch = vi.fn((url) => {
-  let responseData = {};
-
-  if (url.includes(`${Api.baseUrl}${Api.pokemonEndpoint}`)) {
-    responseData = pokemonDetails;
-  } else if (
-    new RegExp(`^${Api.baseUrl}${Api.speciesEndpoint}\\d+\\/$`).test(url)
-  ) {
-    responseData = pokemonItem;
-  } else if (new RegExp(`^${Api.baseUrl}${Api.speciesEndpoint}`).test(url)) {
-    responseData = pokemonListItems;
-  }
-
-  return Promise.resolve({
-    json: () => Promise.resolve(responseData),
-  });
-}) as Mock;
 
 describe('DetailedCard', () => {
   it('fetches data on mount', async () => {
@@ -75,8 +53,4 @@ describe('DetailedCard', () => {
       expect(screen.getByText('hp: 45')).toBeDefined();
     });
   });
-});
-
-afterEach(() => {
-  vi.restoreAllMocks();
 });

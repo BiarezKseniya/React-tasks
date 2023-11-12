@@ -32,7 +32,3 @@ test('opens detailed card modal', async () => {
     '/modal?front-page=1&pokemon=1'
   );
 });
-
-afterEach(() => {
-  vi.clearAllMocks();
-});
