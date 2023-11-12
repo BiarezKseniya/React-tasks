@@ -22,3 +22,29 @@ test('Ensure that the 404 page is displayed when navigating to an invalid route'
     ).toBeDefined();
   });
 });
+
+test('Ensure that modal is displayed when navigating to a valid route', async () => {
+  const modalRoute = '/modal?front-page=1&pokemon=1';
+  const router = createMemoryRouter(createRoutesFromElements(appRoutes), {
+    initialEntries: [modalRoute],
+  });
+
+  render(<RouterProvider router={router} />);
+
+  await waitFor(() => {
+    expect(screen.getByTestId('modal-outlet')).toBeDefined();
+  });
+});
+
+test('Ensure that modal is not displayed when navigating to the main page', async () => {
+  const modalRoute = '/';
+  const router = createMemoryRouter(createRoutesFromElements(appRoutes), {
+    initialEntries: [modalRoute],
+  });
+
+  render(<RouterProvider router={router} />);
+
+  await waitFor(() => {
+    expect(screen.queryByTestId('modal-outlet')).toBeNull();
+  });
+});
