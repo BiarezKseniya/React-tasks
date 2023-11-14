@@ -1,4 +1,5 @@
 export enum GalleryPage {
+  defaultPage = 1,
   itemCount = 10,
 }
 
@@ -9,6 +10,5 @@ export enum Api {
 }
 
 export enum Actions {
-  setSearchValue = 'setSearchValue',
   setPokemonCards = 'setPokemonCards',
 }

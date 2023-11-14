@@ -1,16 +1,22 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { PaginationProps } from '../../util/interfaces';
-import { usePage } from '../context/PageContext';
 import './Pagination.css';
 import PaginationButton from './PaginationButton';
+import { RootState } from '../../store/store';
+import { setCurrentPage } from '../../store/slices/pageSlice';
 
-const Pagination = ({ totalResults, limit }: PaginationProps) => {
-  const { currentPage, setCurrentPage } = usePage();
-  const totalPages = Math.ceil(totalResults / limit);
-  const handleStartClick = () => setCurrentPage(1);
-  const handlePrevClick = () => setCurrentPage(Math.max(currentPage - 1, 1));
+const Pagination = ({ totalResults }: PaginationProps) => {
+  const dispatch = useDispatch();
+  const pageLimit = useSelector((state: RootState) => state.page.pageLimit);
+  const currentPage = useSelector((state: RootState) => state.page.currentPage);
+
+  const totalPages = Math.ceil(totalResults / pageLimit);
+  const handleStartClick = () => dispatch(setCurrentPage(1));
+  const handlePrevClick = () =>
+    dispatch(setCurrentPage(Math.max(currentPage - 1, 1)));
   const handleNextClick = () =>
-    setCurrentPage(Math.min(currentPage + 1, totalPages));
-  const handleEndClick = () => setCurrentPage(totalPages);
+    dispatch(setCurrentPage(Math.min(currentPage + 1, totalPages)));
+  const handleEndClick = () => dispatch(setCurrentPage(totalPages));
 
   return (
     <div className="pagination">

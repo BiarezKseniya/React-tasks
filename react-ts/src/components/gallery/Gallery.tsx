@@ -1,22 +1,29 @@
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { fetchPokemonSearch, fetchPokemonList } from '../../services/api';
-import { Actions, GalleryPage } from '../../util/enums';
+import { Actions } from '../../util/enums';
 import PageSizeSelect from '../page-size-select/PageSizeSelect';
 import Pagination from '../pagination/Pagination';
 import SmallCardSkeleton from '../skeletons/SmallCardSkeleton';
 import './Gallery.css';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { usePage } from '../context/PageContext';
 import { AppContext } from '../context/AppState';
+import { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentPage } from '../../store/slices/pageSlice';
 
 const Gallery = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState({ message: '' });
   const [totalResults, setTotalResults] = useState(0);
-  const [pageSize, setPageSize] = useState(GalleryPage.itemCount);
-  const { currentPage, setCurrentPage } = usePage();
-  const { state, dispatch } = useContext(AppContext);
-  const { searchValue, pokemonCards } = state;
+  const { appState, appDispatch } = useContext(AppContext);
+  const { pokemonCards } = appState;
+
+  const dispatch = useDispatch();
+  const searchValue = useSelector(
+    (state: RootState) => state.search.searchValue
+  );
+  const pageLimit = useSelector((state: RootState) => state.page.pageLimit);
+  const currentPage = useSelector((state: RootState) => state.page.currentPage);
 
   const location = useLocation();
   const urlParams = new URLSearchParams(location.search);
@@ -33,16 +40,16 @@ const Gallery = () => {
         if (searchValue) {
           data = await fetchPokemonSearch(searchValue);
         } else {
-          const offset = (currentPage - 1) * pageSize;
-          data = await fetchPokemonList(offset, pageSize);
+          const offset = (currentPage - 1) * pageLimit;
+          data = await fetchPokemonList(offset, pageLimit);
         }
         if (data) {
-          dispatch({
+          appDispatch({
             type: Actions.setPokemonCards,
             value: await data.pokemonData,
           });
           if (data.totalResults === 1) {
-            setCurrentPage(1);
+            dispatch(setCurrentPage(1));
           }
           setTotalResults(data.totalResults);
         }
@@ -56,7 +63,7 @@ const Gallery = () => {
     };
 
     fetchData();
-  }, [currentPage, dispatch, pageSize, searchValue, setCurrentPage]);
+  }, [searchValue, currentPage, pageLimit, appDispatch, dispatch]);
 
   useEffect(() => {
     updateGallery();
@@ -68,13 +75,13 @@ const Gallery = () => {
     }
   }, [currentPage, frontPageParam, location.pathname, navigate, setUrlParams]);
 
-  const loaderSize = pokemonCards.length || pageSize;
+  const loaderSize = pokemonCards.length || pageLimit;
   return (
     <div className="gallery">
       <h2 className="gallery__header">Pokemon Collection</h2>
       <div className="gallery__results">
         <div>Total: {totalResults}</div>
-        <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
+        <PageSizeSelect />
       </div>
 
       <div className="gallery__page">
@@ -89,7 +96,7 @@ const Gallery = () => {
         ) : (
           <>
             {pokemonCards}
-            <Pagination limit={pageSize} totalResults={totalResults} />
+            <Pagination totalResults={totalResults} />
           </>
         )}
       </div>

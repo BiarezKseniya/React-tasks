@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { SmallCardProps } from '../../util/interfaces';
 import './SmallCard.css';
-import { usePage } from '../context/PageContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 const SmallCard = ({ id, name, description }: SmallCardProps) => {
-  const { currentPage } = usePage();
+  const currentPage = useSelector((state: RootState) => state.page.currentPage);
   return (
     <Link
       className="small-card"

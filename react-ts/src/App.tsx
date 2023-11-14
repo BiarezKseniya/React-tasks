@@ -4,6 +4,8 @@ import './App.css';
 import { useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { AppProvider } from './components/context/AppState';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 const App = () => {
   const [urlParams, setUrlParams] = useSearchParams();
@@ -16,11 +18,13 @@ const App = () => {
 
   return (
     <AppProvider>
-      <Header />
-      <main>
-        <Gallery />
-        <Outlet />
-      </main>
+      <Provider store={store}>
+        <Header />
+        <main>
+          <Gallery />
+          <Outlet />
+        </main>
+      </Provider>
     </AppProvider>
   );
 };

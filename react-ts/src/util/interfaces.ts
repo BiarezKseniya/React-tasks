@@ -46,12 +46,6 @@ export interface ErrorBoundaryState {
 
 export interface PaginationProps {
   totalResults: number;
-  limit: number;
-}
-
-export interface PageSizeSelectProps {
-  pageSize: number;
-  setPageSize: (pageSize: number) => void;
 }
 
 export interface StatsRangeProps {
@@ -94,6 +88,5 @@ export interface PokemonStat {
 }
 
 export interface State {
-  searchValue: string;
   pokemonCards: ReactNode[];
 }

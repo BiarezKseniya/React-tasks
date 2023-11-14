@@ -1,19 +1,22 @@
-import { Actions } from '../../util/enums';
-import { AppContext } from '../context/AppState';
+import { useDispatch, useSelector } from 'react-redux';
 import SearchIcon from '../icons/SearchIcon';
 import './Search.css';
-import { useState, useCallback, useContext } from 'react';
+import { useState, useCallback } from 'react';
+import { RootState } from '../../store/store';
+import { setSearchValue } from '../../store/slices/searchSlice';
 
 const Search = () => {
-  const { state, dispatch } = useContext(AppContext);
-  const { searchValue } = state;
+  const searchValue = useSelector(
+    (state: RootState) => state.search.searchValue
+  );
+  const dispatch = useDispatch();
   const [localSearchValue, setLocalSearchValue] = useState(searchValue);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
       localStorage.setItem('searchValue', localSearchValue);
-      dispatch({ type: Actions.setSearchValue, value: localSearchValue });
+      dispatch(setSearchValue(localSearchValue));
     },
     [dispatch, localSearchValue]
   );

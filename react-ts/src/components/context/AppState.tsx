@@ -1,25 +1,20 @@
 import { Dispatch, ReactNode, createContext, useReducer } from 'react';
 import { PokemonSpeciesResponseData, State } from '../../util/interfaces';
 import SmallCard from '../small-card/SmallCard';
-import { PageProvider } from './PageContext';
 import { Action } from '../../util/types';
 
 let initialState: State = {
-  searchValue: localStorage.getItem('searchValue') || '',
   pokemonCards: [],
 };
 
 export const initState = () => {
   initialState = {
-    searchValue: localStorage.getItem('searchValue') || '',
     pokemonCards: [],
   };
 };
 
 function reducer(state: State, action: Action) {
   switch (action.type) {
-    case 'setSearchValue':
-      return { ...state, searchValue: action.value };
     case 'setPokemonCards':
       const createPokemonCards = (
         pokemonData: PokemonSpeciesResponseData[]
@@ -44,24 +39,24 @@ function reducer(state: State, action: Action) {
       const newPokemonCards = createPokemonCards(action.value);
       return { ...state, pokemonCards: newPokemonCards };
     default:
-      throw new Error();
+      return state;
   }
 }
 
 export const AppContext = createContext<{
-  state: State;
-  dispatch: Dispatch<Action>;
+  appState: State;
+  appDispatch: Dispatch<Action>;
 }>({
-  state: initialState,
-  dispatch: () => {},
+  appState: initialState,
+  appDispatch: () => {},
 });
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [appState, appDispatch] = useReducer(reducer, initialState);
 
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
-      <PageProvider>{children}</PageProvider>
+    <AppContext.Provider value={{ appState, appDispatch }}>
+      {children}
     </AppContext.Provider>
   );
 };
