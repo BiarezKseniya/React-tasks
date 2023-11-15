@@ -9,9 +9,7 @@ const pokemonId = 1;
 describe('DetailedCard', () => {
   it('fetches data on mount', async () => {
     render(
-      <MemoryRouter
-        initialEntries={[`/modal?front-page=1&pokemon=${pokemonId}`]}
-      >
+      <MemoryRouter initialEntries={[`/modal?pokemon=${pokemonId}`]}>
         <AppProvider>
           <DetailedCard />
         </AppProvider>
@@ -26,9 +24,7 @@ describe('DetailedCard', () => {
 
   it('displays loading indicator while fetching data', () => {
     const { container } = render(
-      <MemoryRouter
-        initialEntries={[`/modal?front-page=1&pokemon=${pokemonId}`]}
-      >
+      <MemoryRouter initialEntries={[`/modal?pokemon=${pokemonId}`]}>
         <AppProvider>
           <DetailedCard />
         </AppProvider>
@@ -39,9 +35,7 @@ describe('DetailedCard', () => {
 
   it('displays data when fetched', async () => {
     render(
-      <MemoryRouter
-        initialEntries={[`/modal?front-page=1&pokemon=${pokemonId}`]}
-      >
+      <MemoryRouter initialEntries={[`/modal?pokemon=${pokemonId}`]}>
         <AppProvider>
           <DetailedCard />
         </AppProvider>

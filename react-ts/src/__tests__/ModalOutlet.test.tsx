@@ -6,9 +6,7 @@ test('clicking the close button hides the component', () => {
   const pokemonId = 1;
 
   render(
-    <MemoryRouter
-      initialEntries={['/', `/modal?front-page=1&pokemon=${pokemonId}`]}
-    >
+    <MemoryRouter initialEntries={['/', `/modal?pokemon=${pokemonId}`]}>
       <ModalOutlet />
     </MemoryRouter>
   );

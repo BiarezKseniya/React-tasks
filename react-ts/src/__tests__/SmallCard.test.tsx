@@ -29,6 +29,6 @@ test('opens detailed card modal', async () => {
 
   fireEvent.click(getByText('Test'));
   expect(window.location.pathname + window.location.search).toBe(
-    '/modal?front-page=1&pokemon=1'
+    '/modal?pokemon=1'
   );
 });

@@ -1,11 +1,11 @@
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchPokemonSearch, fetchPokemonList } from '../../services/api';
 import { Actions } from '../../util/enums';
 import PageSizeSelect from '../page-size-select/PageSizeSelect';
 import Pagination from '../pagination/Pagination';
 import SmallCardSkeleton from '../skeletons/SmallCardSkeleton';
 import './Gallery.css';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from '../context/AppState';
 import { RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,12 +24,10 @@ const Gallery = () => {
   );
   const pageLimit = useSelector((state: RootState) => state.page.pageLimit);
   const currentPage = useSelector((state: RootState) => state.page.currentPage);
+  const isModalOpen = useSelector((state: RootState) => state.page.isModalOpen);
 
-  const location = useLocation();
-  const urlParams = new URLSearchParams(location.search);
-  const frontPageParam = urlParams.get('front-page');
-  const [, setUrlParams] = useSearchParams();
-  const navigate = useNavigate();
+  const locationRef = useRef(useLocation());
+  const navigateRef = useRef(useNavigate());
 
   const updateGallery = useCallback(() => {
     const fetchData = async () => {
@@ -70,10 +68,13 @@ const Gallery = () => {
   }, [updateGallery]);
 
   useEffect(() => {
-    if (!frontPageParam) {
-      navigate(location.pathname + `?page=${currentPage}`, { replace: true });
+    if (!isModalOpen) {
+      navigateRef.current(
+        locationRef.current.pathname + `?page=${currentPage}`,
+        { replace: true }
+      );
     }
-  }, [currentPage, frontPageParam, location.pathname, navigate, setUrlParams]);
+  }, [currentPage, isModalOpen]);
 
   const loaderSize = pokemonCards.length || pageLimit;
   return (
