@@ -7,7 +7,13 @@ export interface SmallCardProps {
 }
 
 export interface PokemonListResponseData {
+  count: number;
   results: PokemonListItemResponseData[];
+}
+
+export interface PokemonPageData {
+  totalResults: number;
+  pokemonData: PokemonSpeciesResponseData[];
 }
 
 export interface PokemonListItemResponseData {

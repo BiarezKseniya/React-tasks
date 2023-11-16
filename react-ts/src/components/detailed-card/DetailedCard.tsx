@@ -1,36 +1,27 @@
 import './DetailedCard.css';
 import StatsRange from '../stats-range/StatsRange';
-import { useCallback, useEffect, useState } from 'react';
-import { fetchPokemonDetails } from '../../services/api';
 import { useLocation } from 'react-router';
 import DetailedCardSkeleton from '../skeletons/DetailedCardSkeleton';
 import ImageWithLoader from '../detailed-card-image/ImageWithLoader';
-import { PokemonDetailedData } from '../../util/interfaces';
+import { PokemonStat } from '../../util/interfaces';
+import { useFetchPokemonDetailsQuery } from '../../store/slices/apiSlice';
 
 const DetailedCard = () => {
   const urlParams = new URLSearchParams(useLocation().search);
   const pokemonId = urlParams.get('pokemon');
+  const pokemonDetailsQuery = useFetchPokemonDetailsQuery(pokemonId);
+  const pokemonData = pokemonDetailsQuery.data;
+  const error = pokemonDetailsQuery.error;
+  const isLoading =
+    pokemonDetailsQuery.isFetching || pokemonDetailsQuery.isLoading;
 
-  const [pokemonData, setPokemonData] = useState<PokemonDetailedData | null>(
-    null
-  );
-  const getPokemonData = useCallback(() => {
-    const fetchData = async () => {
-      if (!pokemonId) {
-        return;
-      }
-      const data: PokemonDetailedData = await fetchPokemonDetails(pokemonId);
-      setPokemonData(data);
-    };
+  if (error) {
+    return (
+      <div className="detailed-card__error-message">{error as string}</div>
+    );
+  }
 
-    fetchData();
-  }, [pokemonId]);
-
-  useEffect(() => {
-    getPokemonData();
-  }, [getPokemonData]);
-
-  if (!pokemonData) {
+  if (isLoading) {
     return <DetailedCardSkeleton />;
   }
 
@@ -47,7 +38,7 @@ const DetailedCard = () => {
           Weight: {pokemonData.weight}
         </div>
         <div className="detailed-card__stats">
-          {pokemonData.stats.map((stat) => (
+          {pokemonData.stats.map((stat: PokemonStat) => (
             <StatsRange
               key={stat.stat.name}
               skillName={stat.stat.name}
