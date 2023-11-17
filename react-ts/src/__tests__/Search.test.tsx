@@ -1,10 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Search from '../components/search/Search';
 import { BrowserRouter as Router } from 'react-router-dom';
-import {
-  AppProvider,
-  initState as AppProviderInit,
-} from '../components/context/AppState';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 
 const searchValue = 'pikachu';
 
@@ -12,9 +10,9 @@ describe('Search component', () => {
   it('saves entered value to local storage when Search button is clicked', () => {
     render(
       <Router>
-        <AppProvider>
+        <Provider store={store}>
           <Search />
-        </AppProvider>
+        </Provider>
       </Router>
     );
 
@@ -30,13 +28,11 @@ describe('Search component', () => {
   it('retrieves value from local storage upon mounting', async () => {
     localStorage.setItem('searchValue', searchValue);
 
-    AppProviderInit();
-
     render(
       <Router>
-        <AppProvider>
+        <Provider store={store}>
           <Search />
-        </AppProvider>
+        </Provider>
       </Router>
     );
 

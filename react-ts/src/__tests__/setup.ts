@@ -1,32 +1,41 @@
-import { Mock } from 'vitest';
 import { Api } from '../util/enums';
 import pokemonListItems from './mockData/pokemonListItems.json';
 import pokemonDetails from './mockData/pokemonDetails.json';
 import pokemonItem from './mockData/pokemonItem.json';
+import { setupServer } from 'msw/node';
+import { http, HttpResponse, delay } from 'msw';
+import { apiSlice } from '../store/slices/apiSlice';
+import { store } from '../store/store';
+
+export const handlers = [
+  http.get(`${Api.baseUrl}${Api.pokemonEndpoint}:id`, async () => {
+    await delay(150);
+    return HttpResponse.json({ ...pokemonDetails });
+  }),
+  http.get(`${Api.baseUrl}${Api.speciesEndpoint}:id`, async ({ params }) => {
+    pokemonItem.id = +params.id;
+    await delay(150);
+    const responseData = JSON.parse(JSON.stringify(pokemonItem));
+    return HttpResponse.json(responseData);
+  }),
+  http.get(`${Api.baseUrl}${Api.speciesEndpoint}`, async () => {
+    await delay(150);
+    return HttpResponse.json(pokemonListItems);
+  }),
+];
+
+export const server = setupServer(...handlers);
 
 beforeEach(() => {
-  global.fetch = vi.fn((url) => {
-    let responseData = {};
+  store.dispatch(apiSlice.util.resetApiState());
+});
 
-    if (url.includes(`${Api.baseUrl}${Api.pokemonEndpoint}`)) {
-      responseData = pokemonDetails;
-    } else if (
-      new RegExp(`^${Api.baseUrl}${Api.speciesEndpoint}\\d+\\/$`).test(url)
-    ) {
-      const parts = url.split('/');
-      const pokemonId = parts[parts.length - 2];
-      pokemonItem.id = pokemonId;
-      responseData = JSON.parse(JSON.stringify(pokemonItem));
-    } else if (new RegExp(`^${Api.baseUrl}${Api.speciesEndpoint}`).test(url)) {
-      responseData = pokemonListItems;
-    }
-
-    return Promise.resolve({
-      json: () => Promise.resolve(responseData),
-    });
-  }) as Mock;
+beforeAll(() => {
+  server.listen({ onUnhandledRequest: 'error' });
 });
 
 afterEach(() => {
-  vi.restoreAllMocks();
+  server.resetHandlers();
 });
+
+afterAll(() => server.close());

@@ -1,14 +1,15 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AppProvider } from '../components/context/AppState';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Pagination from '../components/pagination/Pagination';
+import { store } from '../store/store';
+import { Provider } from 'react-redux';
 
 test('updates URL query parameter when page changes', () => {
   render(
     <Router>
-      <AppProvider>
-        <Pagination totalResults={100} limit={10} />
-      </AppProvider>
+      <Provider store={store}>
+        <Pagination totalResults={100} />
+      </Provider>
     </Router>
   );
 

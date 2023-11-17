@@ -3,7 +3,6 @@ import Header from './components/header/Header';
 import './App.css';
 import { useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
-import { AppProvider } from './components/context/AppState';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { GalleryPage } from './util/enums';
@@ -18,15 +17,13 @@ const App = () => {
   }, [urlParams, setUrlParams]);
 
   return (
-    <AppProvider>
-      <Provider store={store}>
-        <Header />
-        <main>
-          <Gallery />
-          <Outlet />
-        </main>
-      </Provider>
-    </AppProvider>
+    <Provider store={store}>
+      <Header />
+      <main>
+        <Gallery />
+        <Outlet />
+      </main>
+    </Provider>
   );
 };
 

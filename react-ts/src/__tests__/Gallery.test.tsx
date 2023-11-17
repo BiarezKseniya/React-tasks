@@ -1,42 +1,57 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import Gallery from '../components/gallery/Gallery';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AppProvider } from '../components/context/AppState';
 import { Api } from '../util/enums';
 import pokemonListEmpty from './mockData/pokemonListEmpty.json';
-import { Mock } from 'vitest';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
+import { server } from './setup';
+import { HttpResponse, delay, http } from 'msw';
+
+export let requestUrl = '';
+
+server.events.on('request:start', ({ request }) => {
+  requestUrl = request.url;
+});
+
+beforeAll(() => {
+  server.listen({ onUnhandledRequest: 'error' });
+});
 
 describe('Gallery Component', () => {
-  it('renders the specified number of cards', () => {
+  test('renders the specified number of cards', async () => {
     const expectedCardCount = 10;
 
     const { container } = render(
       <Router>
-        <AppProvider>
+        <Provider store={store}>
           <Gallery />
-        </AppProvider>
+        </Provider>
       </Router>
     );
     const cards = container.querySelectorAll('.small-card');
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      `${Api.baseUrl}${Api.speciesEndpoint}?offset=0&limit=${expectedCardCount}`
-    );
-    expect(cards.length).toBe(expectedCardCount);
+    await waitFor(() => {
+      expect(requestUrl).toBe(
+        `${Api.baseUrl}${Api.speciesEndpoint}?offset=0&limit=${expectedCardCount}`
+      );
+      expect(cards.length).toBe(expectedCardCount);
+    });
   });
 
-  it('displays an appropriate message when no cards are present', async () => {
-    global.fetch = vi.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(pokemonListEmpty),
+  test('displays an appropriate message when no cards are present', async () => {
+    server.use(
+      http.get(`${Api.baseUrl}${Api.speciesEndpoint}`, async () => {
+        await delay(150);
+        return HttpResponse.json(pokemonListEmpty);
       })
-    ) as Mock;
+    );
 
     render(
       <Router>
-        <AppProvider>
+        <Provider store={store}>
           <Gallery />
-        </AppProvider>
+        </Provider>
       </Router>
     );
 

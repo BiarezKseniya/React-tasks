@@ -1,14 +1,15 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import SmallCard from '../components/small-card/SmallCard';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AppProvider } from '../components/context/AppState';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 
 test('renders the relevant card data', () => {
   render(
     <Router>
-      <AppProvider>
+      <Provider store={store}>
         <SmallCard id={1} name="Sample Name" description="Sample Description" />
-      </AppProvider>
+      </Provider>
     </Router>
   );
   const name = screen.getByText('Sample Name');
@@ -21,9 +22,9 @@ test('renders the relevant card data', () => {
 test('opens detailed card modal', async () => {
   const { getByText } = render(
     <Router>
-      <AppProvider>
+      <Provider store={store}>
         <SmallCard id={1} name="Test" description="Test description" />
-      </AppProvider>
+      </Provider>
     </Router>
   );
 
