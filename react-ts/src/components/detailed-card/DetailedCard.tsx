@@ -5,8 +5,13 @@ import DetailedCardSkeleton from '../skeletons/DetailedCardSkeleton';
 import ImageWithLoader from '../detailed-card-image/ImageWithLoader';
 import { PokemonStat } from '../../util/interfaces';
 import { useFetchPokemonDetailsQuery } from '../../store/slices/apiSlice';
+import { useEffect } from 'react';
+import { setIsDetailsLoading } from '../../store/slices/pageSlice';
+import { useDispatch } from 'react-redux';
 
 const DetailedCard = () => {
+  const dispatch = useDispatch();
+
   const urlParams = new URLSearchParams(useLocation().search);
   const pokemonId = urlParams.get('pokemon');
   const pokemonDetailsQuery = useFetchPokemonDetailsQuery(pokemonId);
@@ -14,6 +19,10 @@ const DetailedCard = () => {
   const error = pokemonDetailsQuery.error;
   const isLoading =
     pokemonDetailsQuery.isFetching || pokemonDetailsQuery.isLoading;
+
+  useEffect(() => {
+    dispatch(setIsDetailsLoading(isLoading));
+  }, [isLoading, dispatch]);
 
   if (error) {
     return (

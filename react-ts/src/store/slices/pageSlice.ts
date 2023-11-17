@@ -6,6 +6,8 @@ export interface PageState {
   currentPage: number;
   pageLimit: number;
   isModalOpen: boolean;
+  isMainLoading: boolean;
+  isDetailsLoading: boolean;
 }
 
 const getPageFromURL = (url: string) => {
@@ -21,6 +23,8 @@ const initialState: PageState = {
   currentPage: getPageFromURL(window.location.search),
   pageLimit: GalleryPage.itemCount,
   isModalOpen: getIsModalOpenFromURL(window.location.pathname),
+  isMainLoading: false,
+  isDetailsLoading: false,
 };
 
 export const pageSlice = createSlice({
@@ -34,12 +38,23 @@ export const pageSlice = createSlice({
       return { ...state, pageLimit: action.payload };
     },
     setIsModalOpen: (state, action: PayloadAction<boolean>) => {
-      return { ...state, setIsModalOpen: action.payload };
+      return { ...state, isModalOpen: action.payload };
+    },
+    setIsMainLoading: (state, action: PayloadAction<boolean>) => {
+      return { ...state, isMainLoading: action.payload };
+    },
+    setIsDetailsLoading: (state, action: PayloadAction<boolean>) => {
+      return { ...state, isDetailsLoading: action.payload };
     },
   },
 });
 
-export const { setCurrentPage, setPageLimit, setIsModalOpen } =
-  pageSlice.actions;
+export const {
+  setCurrentPage,
+  setPageLimit,
+  setIsModalOpen,
+  setIsMainLoading,
+  setIsDetailsLoading,
+} = pageSlice.actions;
 
 export default pageSlice.reducer;

@@ -6,7 +6,7 @@ import './Gallery.css';
 import { useEffect, useRef, useState } from 'react';
 import { RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage } from '../../store/slices/pageSlice';
+import { setCurrentPage, setIsMainLoading } from '../../store/slices/pageSlice';
 import {
   useFetchPokemonListQuery,
   useFetchPokemonSearchQuery,
@@ -78,6 +78,10 @@ const Gallery = () => {
       );
     }
   }, [currentPage, isModalOpen]);
+
+  useEffect(() => {
+    dispatch(setIsMainLoading(isLoading));
+  }, [isLoading, dispatch]);
 
   const loaderSize = pokemonCards.length || pageLimit;
   return (
