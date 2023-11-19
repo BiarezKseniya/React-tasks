@@ -5,9 +5,13 @@ export interface SearchState {
   searchValue: string;
 }
 
-const initialState: SearchState = {
-  searchValue: localStorage.getItem('searchValue') || '',
-};
+function initState() {
+  return {
+    searchValue: localStorage.getItem('searchValue') || '',
+  };
+}
+
+const initialState: SearchState = initState();
 
 export const searchSlice = createSlice({
   name: 'search',
@@ -16,9 +20,12 @@ export const searchSlice = createSlice({
     setSearchValue: (state, action: PayloadAction<string>) => {
       return { ...state, searchValue: action.payload };
     },
+    resetSearch: () => {
+      return initState();
+    },
   },
 });
 
-export const { setSearchValue } = searchSlice.actions;
+export const { setSearchValue, resetSearch } = searchSlice.actions;
 
 export default searchSlice.reducer;
