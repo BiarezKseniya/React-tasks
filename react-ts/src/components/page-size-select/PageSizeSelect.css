@@ -1,0 +1,13 @@
+#page-size {
+  border-radius: 5px;
+  border: 1px var(--secondary-color) solid;
+  padding: 5px;
+  color: var(--contrast-color);
+  font-size: 0.85rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+option {
+  color: var(--primary-color);
+}
