@@ -37,9 +37,9 @@ test('Ensure that modal is displayed when navigating to a valid route', async ()
 });
 
 test('Ensure that modal is not displayed when navigating to the main page', async () => {
-  const modalRoute = '/';
+  const mainRoute = '/';
   const router = createMemoryRouter(createRoutesFromElements(appRoutes), {
-    initialEntries: [modalRoute],
+    initialEntries: [mainRoute],
   });
 
   render(<RouterProvider router={router} />);
