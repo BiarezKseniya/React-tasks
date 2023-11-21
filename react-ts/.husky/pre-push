@@ -1,2 +1,0 @@
-#!/bin/sh
-cd ./react-ts && npm run test
