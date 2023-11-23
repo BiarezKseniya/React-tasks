@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import Skeleton from '../skeletons/Skeleton';
 import NotFoundImage from './ImageNotFound';
 import { ImageWithLoaderProps } from '../../util/interfaces';
 import Image from 'next/image';
 
 const ImageWithLoader = ({ src, alt, className }: ImageWithLoaderProps) => {
-  const [isImageLoading, setIsImageLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   if (hasError) {
@@ -14,16 +12,15 @@ const ImageWithLoader = ({ src, alt, className }: ImageWithLoaderProps) => {
 
   return (
     <div className={className}>
-      {isImageLoading && <Skeleton type={className} />}
-      {!isImageLoading && (
-        <Image
-          src={src}
-          alt={alt}
-          onLoad={() => setIsImageLoading(false)}
-          onError={() => setHasError(true)}
-          layout="fill"
-        />
-      )}
+      <Image
+        src={src}
+        alt={alt}
+        loading="eager"
+        placeholder="blur"
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMj6r7DwAEbwIwCsmNYQAAAABJRU5ErkJggg=="
+        onError={() => setHasError(true)}
+        layout="fill"
+      />
     </div>
   );
 };
