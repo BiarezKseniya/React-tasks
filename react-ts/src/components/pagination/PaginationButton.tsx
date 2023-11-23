@@ -1,15 +1,15 @@
-// import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { PaginationButtonProps } from '../../util/interfaces';
 
 const PaginationButton = ({
-  // to,
+  to,
   onClick,
   disabled,
   children,
 }: PaginationButtonProps) => {
-  // const navigate = useNavigate();
+  const router = useRouter();
   const handleClick = () => {
-    // navigate(to, { replace: true });
+    router.replace(to, undefined, { shallow: true });
     onClick();
   };
   return (

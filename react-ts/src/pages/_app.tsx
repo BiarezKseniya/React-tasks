@@ -3,13 +3,10 @@ import '@/styles/Skeleton.css';
 import '@/styles/DetailedCard.css';
 import '@/styles/SmallCard.css';
 import type { AppProps } from 'next/app';
-import { Provider } from 'react-redux';
-import { store } from '@/store/store';
+import wrapper from '@/store/store';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
-  );
+export function App({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
 }
+
+export default wrapper.withRedux(App);

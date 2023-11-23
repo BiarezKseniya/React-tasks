@@ -16,7 +16,7 @@ const SmallCard = ({ id, name, description }: SmallCardProps) => {
     <Link
       className="small-card"
       onClick={handleClick}
-      href={`pokemon/${id}`}
+      href={`/pokemon/${id}`}
       // state={{ page: currentPage }}
     >
       <div className="small-card__name">{name}</div>

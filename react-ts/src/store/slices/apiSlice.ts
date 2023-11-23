@@ -6,6 +6,7 @@ import {
   PokemonPageData,
 } from '../../util/interfaces';
 import { FetchError, FetchPokemonListArgs } from '../../util/types';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const createFetchError = (message: string): FetchError => ({
   status: 'FETCH_ERROR',
@@ -15,6 +16,11 @@ const createFetchError = (message: string): FetchError => ({
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: Api.baseUrl }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     fetchPokemonList: builder.query({
       async queryFn(arg: FetchPokemonListArgs, api, extraOptions, baseQuery) {
@@ -98,4 +104,5 @@ export const {
   useFetchPokemonListQuery,
   useFetchPokemonSearchQuery,
   useFetchPokemonDetailsQuery,
+  util: { getRunningQueriesThunk },
 } = apiSlice;

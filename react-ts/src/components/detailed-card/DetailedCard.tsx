@@ -1,8 +1,3 @@
-// import styles from '@/components/detailed-card/DetailedCard.module.css';
-// import StatsRange from '../stats-range/StatsRange';
-// import { useLocation } from 'react-router';
-// import DetailedCardSkeleton from '../skeletons/DetailedCardSkeleton';
-// import ImageWithLoader from '../detailed-card-image/ImageWithLoader';
 import { PokemonStat } from '../../util/interfaces';
 import { useFetchPokemonDetailsQuery } from '../../store/slices/apiSlice';
 import { useEffect } from 'react';
@@ -11,13 +6,13 @@ import { useDispatch } from 'react-redux';
 import DetailedCardSkeleton from '@/components/skeletons/DetailedCardSkeleton';
 import ImageWithLoader from '@/components/detailed-card-image/ImageWithLoader';
 import StatsRange from '@/components/stats-range/StatsRange';
+import { useRouter } from 'next/router';
 
 const DetailedCard = () => {
   const dispatch = useDispatch();
-  // const urlParams = new URLSearchParams(useLocation().search);
-  // const pokemonId = urlParams.get('pokemon');
-  // const pokemonDetailsQuery = useFetchPokemonDetailsQuery(pokemonId);
-  const pokemonDetailsQuery = useFetchPokemonDetailsQuery(1);
+  const router = useRouter();
+  const { pokemonId } = router.query;
+  const pokemonDetailsQuery = useFetchPokemonDetailsQuery(pokemonId);
   const pokemonData = pokemonDetailsQuery.data;
   const error = pokemonDetailsQuery.error;
   const isLoading =

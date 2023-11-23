@@ -21,14 +21,14 @@ const Pagination = ({ totalResults }: PaginationProps) => {
   return (
     <div className={styles['pagination']}>
       <PaginationButton
-        to={`/?page=1`}
+        to={`/page/1`}
         onClick={handleStartClick}
         disabled={currentPage === 1}
       >
         &lt;&lt;
       </PaginationButton>
       <PaginationButton
-        to={`/?page=${currentPage - 1}`}
+        to={`/page/${currentPage - 1}`}
         onClick={handlePrevClick}
         disabled={currentPage === 1}
       >
@@ -36,14 +36,14 @@ const Pagination = ({ totalResults }: PaginationProps) => {
       </PaginationButton>
       <span className={styles['pagination__current-page']}>{currentPage}</span>
       <PaginationButton
-        to={`/?page=${currentPage + 1}`}
+        to={`/page/${currentPage + 1}`}
         onClick={handleNextClick}
         disabled={currentPage >= totalPages}
       >
         &gt;
       </PaginationButton>
       <PaginationButton
-        to={`/?page=${totalPages}`}
+        to={`/page/${totalPages}`}
         onClick={handleEndClick}
         disabled={currentPage >= totalPages}
       >

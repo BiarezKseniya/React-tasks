@@ -8,14 +8,15 @@ import { setCurrentPage, setIsMainLoading } from '@/store/slices/pageSlice';
 import { RootState } from '@/store/store';
 import { PokemonSpeciesResponseData } from '@/util/interfaces';
 import { FetchError } from '@/util/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PageSizeSelect from '@/components/page-size-select/PageSizeSelect';
 import SmallCard from '@/components/small-card/SmallCard';
 import SmallCardSkeleton from '@/components/skeletons/SmallCardSkeleton';
 import Pagination from '@/components/pagination/Pagination';
+import { useRouter } from 'next/router';
 
-const Gallery = () => {
+const Gallery = ({ initialPage }: { initialPage?: number }) => {
   const [totalResults, setTotalResults] = useState(0);
   const [pokemonCards, setPokemonCards] = useState<JSX.Element[]>([]);
 
@@ -25,7 +26,7 @@ const Gallery = () => {
   );
   const pageLimit = useSelector((state: RootState) => state.page.pageLimit);
   const currentPage = useSelector((state: RootState) => state.page.currentPage);
-  // const isModalOpen = useSelector((state: RootState) => state.page.isModalOpen);
+  const isModalOpen = useSelector((state: RootState) => state.page.isModalOpen);
 
   const pokemonListQuery = useFetchPokemonListQuery({
     offset: (currentPage - 1) * pageLimit,
@@ -39,8 +40,7 @@ const Gallery = () => {
     ? pokemonSearchQuery.isFetching || pokemonSearchQuery.isLoading
     : pokemonListQuery.isFetching || pokemonListQuery.isLoading;
 
-  // const locationRef = useRef(useLocation());
-  // const navigateRef = useRef(useNavigate());
+  const routerRef = useRef(useRouter());
 
   useEffect(() => {
     const createPokemonCards = (pokemonData: PokemonSpeciesResponseData[]) => {
@@ -70,18 +70,23 @@ const Gallery = () => {
     }
   }, [data, dispatch]);
 
-  // useEffect(() => {
-  //   if (!isModalOpen) {
-  //     navigateRef.current(
-  //       locationRef.current.pathname + `?page=${currentPage}`,
-  //       { replace: true }
-  //     );
-  //   }
-  // }, [currentPage, isModalOpen]);
+  useEffect(() => {
+    if (!isModalOpen) {
+      routerRef.current.replace(`/page/${currentPage}`, undefined, {
+        shallow: true,
+      });
+    }
+  }, [currentPage, isModalOpen]);
 
   useEffect(() => {
     dispatch(setIsMainLoading(isLoading));
   }, [isLoading, dispatch]);
+
+  useEffect(() => {
+    if (initialPage) {
+      dispatch(setCurrentPage(initialPage));
+    }
+  }, [dispatch, initialPage]);
 
   const loaderSize = pokemonCards.length || pageLimit;
   return (

@@ -1,17 +1,20 @@
 import Header from '@/components/header/Header';
-// import Gallery from '@/components/gallery/Gallery';
-
+import Gallery from '@/components/gallery/Gallery';
 import { ReactNode } from 'react';
 
 interface LayoutProps {
-  children: ReactNode;
+  initialPage?: number;
+  children?: ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, initialPage }: LayoutProps) => {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main>
+        <Gallery initialPage={initialPage} />
+        {children}
+      </main>
     </>
   );
 };

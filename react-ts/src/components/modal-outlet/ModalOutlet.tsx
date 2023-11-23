@@ -1,15 +1,18 @@
 import styles from '@/components/modal-outlet/ModalOutlet.module.css';
 import CloseIcon from '../icons/Close';
-// import { useNavigate } from 'react-router-dom';
 import { setIsModalOpen } from '../../store/slices/pageSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DetailedCard from '@/components/detailed-card/DetailedCard';
+import { useRouter } from 'next/router';
+import { RootState } from '@/store/store';
 
 const ModalOutlet = () => {
-  // const navigate = useNavigate();
+  const router = useRouter();
   const dispatch = useDispatch();
+  const currentPage = useSelector((state: RootState) => state.page.currentPage);
+
   const handleClose = () => {
-    // navigate(-1);
+    router.push(`/page/${currentPage}`);
     dispatch(setIsModalOpen(false));
   };
 
