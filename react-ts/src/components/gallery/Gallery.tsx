@@ -16,7 +16,7 @@ import SmallCardSkeleton from '@/components/skeletons/SmallCardSkeleton';
 import Pagination from '@/components/pagination/Pagination';
 import { useRouter } from 'next/router';
 
-const Gallery = ({ initialPage }: { initialPage?: number }) => {
+const Gallery = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [pokemonCards, setPokemonCards] = useState<JSX.Element[]>([]);
 
@@ -81,12 +81,6 @@ const Gallery = ({ initialPage }: { initialPage?: number }) => {
   useEffect(() => {
     dispatch(setIsMainLoading(isLoading));
   }, [isLoading, dispatch]);
-
-  useEffect(() => {
-    if (initialPage) {
-      dispatch(setCurrentPage(initialPage));
-    }
-  }, [dispatch, initialPage]);
 
   const loaderSize = pokemonCards.length || pageLimit;
   return (

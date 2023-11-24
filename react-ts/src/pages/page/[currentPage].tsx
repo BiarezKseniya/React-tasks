@@ -1,6 +1,7 @@
-import Layout from '@/components/layout/Layout';
 import { apiSlice, getRunningQueriesThunk } from '@/store/slices/apiSlice';
-import wrapper from '@/store/store';
+import { setCurrentPage } from '@/store/slices/pageSlice';
+import wrapper, { store } from '@/store/store';
+import { useEffect } from 'react';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
@@ -28,8 +29,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
   }
 );
 
-const GalleryPage = ({ initialPage }: { initialPage: number }) => {
-  return <Layout initialPage={initialPage} />;
+const GalleryPage = ({ initialPage }: { initialPage?: number }) => {
+  useEffect(() => {
+    if (initialPage) {
+      store.dispatch(setCurrentPage(initialPage));
+    }
+  }, [initialPage]);
+  return null;
 };
 
 export default GalleryPage;
