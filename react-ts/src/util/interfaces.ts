@@ -96,3 +96,10 @@ export interface PokemonStat {
 export interface State {
   pokemonCards: ReactNode[];
 }
+
+export interface PageProps {
+  data: PokemonPageData;
+  pageLimit: number;
+  searchValue: string;
+  // initialPage: number;
+}

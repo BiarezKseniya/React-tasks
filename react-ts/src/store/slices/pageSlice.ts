@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { GalleryPage } from '../../util/enums';
+import { getCookieStore } from 'next-persist';
 
 export interface PageState {
   currentPage: number;
@@ -20,18 +21,17 @@ export interface PageState {
 // const getIsModalOpenFromURL = (url: string) => url.includes('modal');
 
 const initialState: PageState = {
-  // currentPage: getPageFromURL(window.location.search),
   currentPage: GalleryPage.defaultPage,
   pageLimit: GalleryPage.itemCount,
-  // isModalOpen: getIsModalOpenFromURL(window.location.pathname),
   isModalOpen: false,
   isMainLoading: false,
   isDetailsLoading: false,
 };
+const persistedState = getCookieStore('page', initialState);
 
 export const pageSlice = createSlice({
   name: 'page',
-  initialState,
+  initialState: persistedState,
   reducers: {
     setCurrentPage: (state, action: PayloadAction<number>) => {
       return { ...state, currentPage: action.payload };

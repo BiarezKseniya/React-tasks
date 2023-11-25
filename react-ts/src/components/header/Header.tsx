@@ -1,9 +1,8 @@
 // import ErrorButton from '../error-button/ErrorButton';
-// import Search from '../search/Search';
 import styles from '@/components/header/Header.module.css';
 import Search from '@/components/search/Search';
 
-const Header = () => {
+const Header = ({ searchValue }: { searchValue: string }) => {
   return (
     <header className={styles['header']}>
       <div className={styles['header__text']}>
@@ -13,7 +12,7 @@ const Header = () => {
         </div>
       </div>
       <div className={styles['header__controls']}>
-        <Search />
+        <Search searchValue={searchValue} />
         {/* <ErrorButton /> */}
       </div>
     </header>

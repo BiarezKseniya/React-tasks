@@ -1,16 +1,22 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styles from '@/components/page-size-select/PageSizeSelect.module.css';
-import { RootState } from '../../store/store';
 import { setCurrentPage, setPageLimit } from '../../store/slices/pageSlice';
+import { setCookieStore } from 'next-persist';
+import { useRouter } from 'next/router';
 
-const PageSizeSelect = () => {
+const PageSizeSelect = ({ pageLimit }: { pageLimit: number }) => {
   const dispatch = useDispatch();
-  const pageLimit = useSelector((state: RootState) => state.page.pageLimit);
+  const router = useRouter();
 
   const options = [5, 10, 15, 20];
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCookieStore(
+      { pageLimit: ['pageLimit'] },
+      { pageLimit: Number(e.target.value) }
+    );
     dispatch(setPageLimit(Number(e.target.value)));
     dispatch(setCurrentPage(1));
+    router.replace(`/page/1`);
   };
 
   return (

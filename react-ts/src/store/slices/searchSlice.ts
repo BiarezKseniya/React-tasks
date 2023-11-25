@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { getCookieStore } from 'next-persist';
 
 export interface SearchState {
   searchValue: string;
@@ -7,16 +8,16 @@ export interface SearchState {
 
 function initState() {
   return {
-    // searchValue: localStorage.getItem('searchValue') || '',
     searchValue: '',
   };
 }
 
 const initialState: SearchState = initState();
+const persistedState = getCookieStore('searchValue', initialState);
 
 export const searchSlice = createSlice({
   name: 'search',
-  initialState,
+  initialState: persistedState,
   reducers: {
     setSearchValue: (state, action: PayloadAction<string>) => {
       return { ...state, searchValue: action.payload };

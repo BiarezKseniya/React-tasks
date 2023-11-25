@@ -9,7 +9,7 @@ const PaginationButton = ({
 }: PaginationButtonProps) => {
   const router = useRouter();
   const handleClick = () => {
-    router.replace(to, undefined, { shallow: true });
+    router.replace(to);
     onClick();
   };
   return (
