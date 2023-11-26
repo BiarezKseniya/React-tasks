@@ -54,6 +54,7 @@ export interface ErrorBoundaryState {
 export interface PaginationProps {
   totalResults: number;
   currentPage: number;
+  pageLimit: number;
 }
 
 export interface StatsRangeProps {

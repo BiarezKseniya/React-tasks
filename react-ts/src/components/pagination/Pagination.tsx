@@ -1,12 +1,12 @@
-import { useSelector } from 'react-redux';
 import { PaginationProps } from '../../util/interfaces';
 import styles from '@/components/pagination/Pagination.module.css';
 import PaginationButton from './PaginationButton';
-import { RootState } from '../../store/store';
 
-const Pagination = ({ currentPage, totalResults }: PaginationProps) => {
-  const pageLimit = useSelector((state: RootState) => state.page.pageLimit);
-
+const Pagination = ({
+  pageLimit,
+  currentPage,
+  totalResults,
+}: PaginationProps) => {
   const totalPages = Math.ceil(totalResults / pageLimit);
 
   return (

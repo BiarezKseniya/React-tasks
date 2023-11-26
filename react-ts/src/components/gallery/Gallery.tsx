@@ -3,7 +3,6 @@ import '@/components/gallery/Gallery.module.css';
 import { PokemonPageData, PokemonSpeciesResponseData } from '@/util/interfaces';
 import { FetchError } from '@/util/types';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import PageSizeSelect from '@/components/page-size-select/PageSizeSelect';
 import SmallCard from '@/components/small-card/SmallCard';
 import Pagination from '@/components/pagination/Pagination';
@@ -17,8 +16,6 @@ interface GalleryProps {
 const Gallery = ({ data, error, pageLimit, currentPage }: GalleryProps) => {
   const [totalResults, setTotalResults] = useState(0);
   const [pokemonCards, setPokemonCards] = useState<JSX.Element[]>([]);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const createPokemonCards = (pokemonData: PokemonSpeciesResponseData[]) => {
@@ -43,7 +40,7 @@ const Gallery = ({ data, error, pageLimit, currentPage }: GalleryProps) => {
       setPokemonCards(createPokemonCards(pokemonData));
       setTotalResults(data.totalResults);
     }
-  }, [data, dispatch]);
+  }, [data]);
 
   return (
     <div className={styles['gallery']}>
@@ -61,7 +58,11 @@ const Gallery = ({ data, error, pageLimit, currentPage }: GalleryProps) => {
         ) : (
           <>
             {pokemonCards}
-            <Pagination currentPage={currentPage} totalResults={totalResults} />
+            <Pagination
+              pageLimit={pageLimit}
+              currentPage={currentPage}
+              totalResults={totalResults}
+            />
           </>
         )}
       </div>
