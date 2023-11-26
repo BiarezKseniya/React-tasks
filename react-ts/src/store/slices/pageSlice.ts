@@ -11,15 +11,6 @@ export interface PageState {
   isDetailsLoading: boolean;
 }
 
-// const getPageFromURL = (url: string) => {
-//   const urlParams = new URLSearchParams(url);
-//   const pageParam = Number(urlParams.get('page'));
-//   const previousPageParam = window.history.state?.usr?.page;
-//   return pageParam || previousPageParam || GalleryPage.defaultPage;
-// };
-
-// const getIsModalOpenFromURL = (url: string) => url.includes('modal');
-
 const initialState: PageState = {
   currentPage: GalleryPage.defaultPage,
   pageLimit: GalleryPage.itemCount,

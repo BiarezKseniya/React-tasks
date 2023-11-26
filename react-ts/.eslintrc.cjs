@@ -14,6 +14,7 @@ module.exports = {
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
+    warnOnUnsupportedTypeScriptVersion: false,
   },
   env: {
     browser: true,

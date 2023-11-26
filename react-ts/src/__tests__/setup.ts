@@ -3,7 +3,7 @@ import pokemonListItems from './mockData/pokemonListItems.json';
 import pokemonDetails from './mockData/pokemonDetails.json';
 import pokemonItem from './mockData/pokemonItem.json';
 import { setupServer } from 'msw/node';
-import { http, HttpResponse, delay } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { apiSlice } from '../store/slices/apiSlice';
 import { store } from '../store/store';
 import mockRouter from 'next-router-mock';
@@ -11,17 +11,14 @@ import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 
 export const handlers = [
   http.get(`${Api.baseUrl}${Api.pokemonEndpoint}:id`, async () => {
-    await delay(150);
     return HttpResponse.json({ ...pokemonDetails });
   }),
   http.get(`${Api.baseUrl}${Api.speciesEndpoint}:id`, async ({ params }) => {
     pokemonItem.id = +params.id;
-    await delay(150);
     const responseData = JSON.parse(JSON.stringify(pokemonItem));
     return HttpResponse.json(responseData);
   }),
   http.get(`${Api.baseUrl}${Api.speciesEndpoint}`, async () => {
-    await delay(150);
     return HttpResponse.json(pokemonListItems);
   }),
 ];
@@ -34,6 +31,11 @@ beforeEach(() => {
   mockRouter.useParser(
     createDynamicRouteParser(['/', '/pokemon/[id]', '/page/[currentPage]'])
   );
+  document.cookie.split(';').forEach((c) => {
+    document.cookie = c
+      .replace(/^ +/, '')
+      .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+  });
 });
 
 beforeAll(() => {
