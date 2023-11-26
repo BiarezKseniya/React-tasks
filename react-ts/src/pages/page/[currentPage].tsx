@@ -3,6 +3,7 @@ import Header from '@/components/header/Header';
 import wrapper from '@/store/store';
 import { PageProps } from '@/util/interfaces';
 import { loadPokemonList } from '@/util/loadHelper';
+import { setCookieStore } from 'next-persist';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
@@ -10,6 +11,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     return {
       props: {
+        currentPage: load.currentPage,
         pageLimit: load.pageLimit,
         searchValue: load.searchValue,
         initialPage: load.currentPage,
@@ -21,22 +23,27 @@ export const getServerSideProps = wrapper.getServerSideProps(
 );
 
 const GalleryPage = ({
-  // initialPage,
   data,
   error,
   pageLimit,
   searchValue,
+  currentPage,
 }: PageProps) => {
-  // useEffect(() => {
-  //   if (initialPage) {
-  //     store.dispatch(setCurrentPage(initialPage));
-  //   }
-  // }, [initialPage]);
+  setCookieStore(
+    { currentPage: ['currentPage'] },
+    { currentPage: currentPage }
+  );
+
   return (
     <>
       <Header searchValue={searchValue} />
       <main>
-        <Gallery data={data} error={error} pageLimit={pageLimit} />
+        <Gallery
+          data={data}
+          error={error}
+          pageLimit={pageLimit}
+          currentPage={currentPage}
+        />
       </main>
     </>
   );

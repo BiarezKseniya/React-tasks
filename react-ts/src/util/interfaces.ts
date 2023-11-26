@@ -53,6 +53,7 @@ export interface ErrorBoundaryState {
 
 export interface PaginationProps {
   totalResults: number;
+  currentPage: number;
 }
 
 export interface StatsRangeProps {
@@ -62,7 +63,6 @@ export interface StatsRangeProps {
 
 export interface PaginationButtonProps {
   to: string;
-  onClick: () => void;
   disabled: boolean;
   children: ReactNode;
 }
@@ -100,8 +100,13 @@ export interface State {
 
 export interface PageProps {
   data: PokemonPageData;
-  error: FetchError;
+  error?: FetchError;
   pageLimit: number;
   searchValue: string;
-  // initialPage: number;
+  currentPage: number;
+}
+
+export interface ModalPageProps {
+  modalData: PokemonDetailedData;
+  modalError?: string;
 }

@@ -12,6 +12,9 @@ export async function loadPokemonList(
   let searchValue = '';
   let pageLimit = GalleryPage.itemCount;
 
+  const pageFromUrl = Number(context.query.currentPage);
+  let currentPage = pageFromUrl;
+
   const cookie = getCookieProps(context as unknown as NextPageContext);
 
   if (typeof cookie === 'object' && cookie !== null) {
@@ -23,10 +26,14 @@ export async function loadPokemonList(
     if (cookiePageLimit) {
       pageLimit = JSON.parse(cookiePageLimit)?.pageLimit;
     }
+    if (!currentPage) {
+      const cookieCurrentPage = cookie?.currentPage;
+      if (cookieCurrentPage) {
+        currentPage = JSON.parse(cookieCurrentPage)?.currentPage || 1;
+      }
+    }
   }
 
-  const pageFromUrl = Number(context.query.currentPage);
-  const currentPage = pageFromUrl || 1;
   const offset = (currentPage - 1) * pageLimit;
 
   if (searchValue) {

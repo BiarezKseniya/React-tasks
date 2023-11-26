@@ -1,35 +1,24 @@
 import styles from '@/components/gallery/Gallery.module.css';
 import '@/components/gallery/Gallery.module.css';
-import { setCurrentPage, setIsMainLoading } from '@/store/slices/pageSlice';
-import { RootState } from '@/store/store';
 import { PokemonPageData, PokemonSpeciesResponseData } from '@/util/interfaces';
 import { FetchError } from '@/util/types';
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PageSizeSelect from '@/components/page-size-select/PageSizeSelect';
 import SmallCard from '@/components/small-card/SmallCard';
 import Pagination from '@/components/pagination/Pagination';
-import { useRouter } from 'next/router';
 
-const Gallery = ({
-  data,
-  error,
-  pageLimit,
-}: {
+interface GalleryProps {
   data: PokemonPageData;
-  error: FetchError;
+  error?: FetchError;
   pageLimit: number;
-}) => {
+  currentPage: number;
+}
+const Gallery = ({ data, error, pageLimit, currentPage }: GalleryProps) => {
   const [totalResults, setTotalResults] = useState(0);
   const [pokemonCards, setPokemonCards] = useState<JSX.Element[]>([]);
 
   const dispatch = useDispatch();
-  const currentPage = useSelector((state: RootState) => state.page.currentPage);
-  const isModalOpen = useSelector((state: RootState) => state.page.isModalOpen);
-
-  const isLoading = false;
-
-  const routerRef = useRef(useRouter());
 
   useEffect(() => {
     const createPokemonCards = (pokemonData: PokemonSpeciesResponseData[]) => {
@@ -53,21 +42,8 @@ const Gallery = ({
       const pokemonData: PokemonSpeciesResponseData[] = data.pokemonData;
       setPokemonCards(createPokemonCards(pokemonData));
       setTotalResults(data.totalResults);
-      if (data.totalResults === 1) {
-        dispatch(setCurrentPage(1));
-      }
     }
   }, [data, dispatch]);
-
-  useEffect(() => {
-    if (!isModalOpen) {
-      routerRef.current.replace(`/page/${currentPage}`);
-    }
-  }, [currentPage, isModalOpen]);
-
-  useEffect(() => {
-    dispatch(setIsMainLoading(isLoading));
-  }, [isLoading, dispatch]);
 
   return (
     <div className={styles['gallery']}>
@@ -85,7 +61,7 @@ const Gallery = ({
         ) : (
           <>
             {pokemonCards}
-            <Pagination totalResults={totalResults} />
+            <Pagination currentPage={currentPage} totalResults={totalResults} />
           </>
         )}
       </div>

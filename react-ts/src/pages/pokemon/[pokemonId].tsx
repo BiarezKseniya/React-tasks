@@ -4,35 +4,57 @@ import { apiSlice, getRunningQueriesThunk } from '@/store/slices/apiSlice';
 import Gallery from '@/components/gallery/Gallery';
 import Header from '@/components/header/Header';
 import { loadPokemonList } from '@/util/loadHelper';
-import { PageProps } from '@/util/interfaces';
+import { ModalPageProps, PageProps } from '@/util/interfaces';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const pokemonId = context.query.pokemonId;
-    store.dispatch(apiSlice.endpoints.fetchPokemonDetails.initiate(pokemonId));
+    const loadModal = await store.dispatch(
+      apiSlice.endpoints.fetchPokemonDetails.initiate(pokemonId)
+    );
 
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
-    const load = await loadPokemonList(context, store);
+    const loadGallery = await loadPokemonList(context, store);
 
     return {
       props: {
-        pageLimit: load.pageLimit,
-        searchValue: load.searchValue,
-        data: load.data || null,
-        error: load.error || null,
+        currentPage: loadGallery.currentPage,
+        pageLimit: loadGallery.pageLimit,
+        searchValue: loadGallery.searchValue,
+        data: loadGallery.data || null,
+        error: loadGallery.error || null,
+        modalData: loadModal.data || null,
+        modalError: loadModal.error || null,
       },
     };
   }
 );
 
-const PokemonPage = ({ data, error, searchValue, pageLimit }: PageProps) => {
+const PokemonPage = ({
+  currentPage,
+  data,
+  error,
+  searchValue,
+  pageLimit,
+  modalData,
+  modalError,
+}: ModalPageProps & PageProps) => {
   return (
     <>
       <Header searchValue={searchValue} />
       <main>
-        <Gallery data={data} error={error} pageLimit={pageLimit} />
-        <ModalOutlet />
+        <Gallery
+          data={data}
+          error={error}
+          pageLimit={pageLimit}
+          currentPage={currentPage}
+        />
+        <ModalOutlet
+          modalData={modalData}
+          modalError={modalError}
+          currentPage={currentPage}
+        />
       </main>
     </>
   );

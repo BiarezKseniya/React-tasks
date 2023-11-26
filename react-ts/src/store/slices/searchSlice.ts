@@ -6,13 +6,10 @@ export interface SearchState {
   searchValue: string;
 }
 
-function initState() {
-  return {
-    searchValue: '',
-  };
-}
+const initialState: SearchState = {
+  searchValue: '',
+};
 
-const initialState: SearchState = initState();
 const persistedState = getCookieStore('searchValue', initialState);
 
 export const searchSlice = createSlice({
@@ -22,12 +19,9 @@ export const searchSlice = createSlice({
     setSearchValue: (state, action: PayloadAction<string>) => {
       return { ...state, searchValue: action.payload };
     },
-    resetSearch: () => {
-      return initState();
-    },
   },
 });
 
-export const { setSearchValue, resetSearch } = searchSlice.actions;
+export const { setSearchValue } = searchSlice.actions;
 
 export default searchSlice.reducer;

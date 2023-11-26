@@ -1,15 +1,24 @@
 import styles from '@/components/modal-outlet/ModalOutlet.module.css';
 import CloseIcon from '../icons/Close';
 import { setIsModalOpen } from '../../store/slices/pageSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import DetailedCard from '@/components/detailed-card/DetailedCard';
 import { useRouter } from 'next/router';
-import { RootState } from '@/store/store';
+import { PokemonDetailedData } from '@/util/interfaces';
 
-const ModalOutlet = () => {
+interface ModalOutletProps {
+  currentPage: number;
+  modalData: PokemonDetailedData;
+  modalError?: string;
+}
+
+const ModalOutlet = ({
+  currentPage,
+  modalData,
+  modalError,
+}: ModalOutletProps) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const currentPage = useSelector((state: RootState) => state.page.currentPage);
 
   const handleClose = () => {
     router.push(`/page/${currentPage}`);
@@ -21,7 +30,7 @@ const ModalOutlet = () => {
       <div className={styles['shadow']} onClick={handleClose} />
       <div className={styles['modal']} data-testid="modal-outlet">
         <CloseIcon onClick={handleClose} />
-        <DetailedCard />
+        <DetailedCard modalData={modalData} modalError={modalError} />
       </div>
     </>
   );
