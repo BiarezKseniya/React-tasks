@@ -23,4 +23,18 @@ describe('DetailedCard', () => {
       expect(screen.getByText('hp: 45')).toBeDefined();
     });
   });
+
+  it('renders error', async () => {
+    mockRouter.push(`/pokemon/${pokemonId}`);
+
+    render(
+      <Provider store={store}>
+        <DetailedCard modalData={ModalData} modalError={'Error'} />
+      </Provider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Error')).toBeDefined();
+    });
+  });
 });
