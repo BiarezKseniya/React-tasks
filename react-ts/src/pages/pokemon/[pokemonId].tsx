@@ -19,18 +19,19 @@ export const getServerSideProps = wrapper.getServerSideProps(
       props: {
         pageLimit: load.pageLimit,
         searchValue: load.searchValue,
-        data: load.data || {},
+        data: load.data || null,
+        error: load.error || null,
       },
     };
   }
 );
 
-const PokemonPage = ({ data, searchValue, pageLimit }: PageProps) => {
+const PokemonPage = ({ data, error, searchValue, pageLimit }: PageProps) => {
   return (
     <>
       <Header searchValue={searchValue} />
       <main>
-        <Gallery data={data} pageLimit={pageLimit} />
+        <Gallery data={data} error={error} pageLimit={pageLimit} />
         <ModalOutlet />
       </main>
     </>

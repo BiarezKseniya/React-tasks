@@ -13,7 +13,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
         pageLimit: load.pageLimit,
         searchValue: load.searchValue,
         initialPage: load.currentPage,
-        data: load.data || {},
+        data: load.data || null,
+        error: load.error || null,
       },
     };
   }
@@ -22,6 +23,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 const GalleryPage = ({
   // initialPage,
   data,
+  error,
   pageLimit,
   searchValue,
 }: PageProps) => {
@@ -34,7 +36,7 @@ const GalleryPage = ({
     <>
       <Header searchValue={searchValue} />
       <main>
-        <Gallery data={data} pageLimit={pageLimit} />
+        <Gallery data={data} error={error} pageLimit={pageLimit} />
       </main>
     </>
   );

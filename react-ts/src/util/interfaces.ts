@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { FetchError } from './types';
 
 export interface SmallCardProps {
   id: number;
@@ -99,6 +100,7 @@ export interface State {
 
 export interface PageProps {
   data: PokemonPageData;
+  error: FetchError;
   pageLimit: number;
   searchValue: string;
   // initialPage: number;

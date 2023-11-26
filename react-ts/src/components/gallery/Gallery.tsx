@@ -3,20 +3,21 @@ import '@/components/gallery/Gallery.module.css';
 import { setCurrentPage, setIsMainLoading } from '@/store/slices/pageSlice';
 import { RootState } from '@/store/store';
 import { PokemonPageData, PokemonSpeciesResponseData } from '@/util/interfaces';
-// import { FetchError } from '@/util/types';
+import { FetchError } from '@/util/types';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PageSizeSelect from '@/components/page-size-select/PageSizeSelect';
 import SmallCard from '@/components/small-card/SmallCard';
-// import SmallCardSkeleton from '@/components/skeletons/SmallCardSkeleton';
 import Pagination from '@/components/pagination/Pagination';
 import { useRouter } from 'next/router';
 
 const Gallery = ({
   data,
+  error,
   pageLimit,
 }: {
   data: PokemonPageData;
+  error: FetchError;
   pageLimit: number;
 }) => {
   const [totalResults, setTotalResults] = useState(0);
@@ -68,7 +69,6 @@ const Gallery = ({
     dispatch(setIsMainLoading(isLoading));
   }, [isLoading, dispatch]);
 
-  // const loaderSize = pokemonCards.length || pageLimit;
   return (
     <div className={styles['gallery']}>
       <h2 className={styles['gallery__header']}>Pokemon Collection</h2>
@@ -78,20 +78,16 @@ const Gallery = ({
       </div>
 
       <div className={styles['gallery__page']}>
-        {/* {(error || !pokemonCards.length) && !isLoading ? (
+        {error || !pokemonCards.length ? (
           <div className={styles['gallery__error-message']}>
-            {(error as FetchError)?.error || 'No cards available.'}
+            {error?.error || 'No cards available.'}
           </div>
-        ) : isLoading ? (
-          [...Array(loaderSize)].map((emptyElement, index) => (
-            <SmallCardSkeleton key={index} />
-          ))
-        ) : ( */}
-        <>
-          {pokemonCards}
-          <Pagination totalResults={totalResults} />
-        </>
-        {/* )} */}
+        ) : (
+          <>
+            {pokemonCards}
+            <Pagination totalResults={totalResults} />
+          </>
+        )}
       </div>
     </div>
   );

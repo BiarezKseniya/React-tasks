@@ -8,7 +8,7 @@ export async function loadPokemonList(
   context: GetServerSidePropsContext,
   store: Store
 ) {
-  let data;
+  let response;
   let searchValue = '';
   let pageLimit = GalleryPage.itemCount;
 
@@ -30,20 +30,16 @@ export async function loadPokemonList(
   const offset = (currentPage - 1) * pageLimit;
 
   if (searchValue) {
-    data = (
-      await store.dispatch(
-        apiSlice.endpoints.fetchPokemonSearch.initiate(searchValue)
-      )
-    )?.data;
+    response = await store.dispatch(
+      apiSlice.endpoints.fetchPokemonSearch.initiate(searchValue)
+    );
   } else {
-    data = (
-      await store.dispatch(
-        apiSlice.endpoints.fetchPokemonList.initiate({
-          offset,
-          limit: pageLimit,
-        })
-      )
-    )?.data;
+    response = await store.dispatch(
+      apiSlice.endpoints.fetchPokemonList.initiate({
+        offset,
+        limit: pageLimit,
+      })
+    );
   }
   await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
@@ -51,6 +47,7 @@ export async function loadPokemonList(
     searchValue,
     currentPage,
     pageLimit,
-    data,
+    data: response.data,
+    error: response.error,
   };
 }
