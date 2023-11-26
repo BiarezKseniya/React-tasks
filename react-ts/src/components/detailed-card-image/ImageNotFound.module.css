@@ -1,0 +1,5 @@
+.not-found {
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  font-size: 1.3rem;
+}

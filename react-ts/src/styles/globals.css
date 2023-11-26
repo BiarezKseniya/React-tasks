@@ -1,0 +1,96 @@
+:root {
+  --primary-color: rgb(6, 6, 48);
+  --secondary-color: rgb(87, 90, 126);
+  --contrast-color: white;
+  --main-font: 'Calibri';
+}
+
+html {
+  background-color: var(--primary-color);
+  font-family: var(--main-font);
+  color: var(--contrast-color);
+  font-size: 18px;
+  scrollbar-gutter: stable both-edges;
+}
+
+html:has([data-testid='modal-outlet']) {
+  overflow: hidden;
+  scrollbar-gutter: auto;
+}
+
+body {
+  margin: 0;
+}
+
+#__next {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+button {
+  border-radius: 5px;
+  border: 1px var(--secondary-color) solid;
+  background-color: transparent;
+  padding: 10px;
+  color: var(--contrast-color);
+  font-family: var(--main-font);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+input[type='range'] {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 0;
+  width: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+option {
+  color: var(--primary-color);
+}
+
+input[type='range']::-moz-range-thumb {
+  height: 0;
+  width: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  border-radius: 5px;
+}
+
+@media (max-width: 992px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 650px) {
+  #__next {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+}
