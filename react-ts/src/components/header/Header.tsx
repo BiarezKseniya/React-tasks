@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
@@ -6,9 +6,9 @@ const Header = () => {
     <header className="header">
       <h1>Form fillers</h1>
       <nav className="header__nav">
-        <Link to="/">Main</Link>
-        <Link to="/controlled-form">Controlled Form</Link>
-        <Link to="/uncontrolled-form">Uncontrolled Form</Link>
+        <NavLink to="/">Main</NavLink>
+        <NavLink to="/controlled-form">Controlled Form</NavLink>
+        <NavLink to="/uncontrolled-form">Uncontrolled Form</NavLink>
       </nav>
     </header>
   );

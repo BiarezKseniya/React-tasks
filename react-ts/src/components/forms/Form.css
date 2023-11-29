@@ -1,0 +1,38 @@
+.form {
+  display: grid;
+  max-width: 550px;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form__field {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.form__options {
+  display: flex;
+  gap: 10px;
+}
+
+.form__image-input {
+  display: none;
+}
+
+.form__field:has(.form__image-input) {
+  justify-self: center;
+}
+
+.form__image-label {
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px solid var(--contrast-color);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form__image-label:hover {
+  background-color: var(--secondary-color);
+}
