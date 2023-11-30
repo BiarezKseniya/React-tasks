@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import Password from './Password';
+import Autocomplete from './Autocomplete';
 
 interface InputProps {
   id: string;
@@ -15,6 +16,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const { id, label, type, name, error, ...rest } = props;
     const isImageInput = type === 'file';
     const isPassswordInput = id === 'password1';
+    const isCountryInput = id === 'country';
 
     return (
       <div className="form__field">
@@ -33,6 +35,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         </div>
         {isPassswordInput ? (
           <Password ref={ref} type={type} id={id} name={name} {...rest} />
+        ) : isCountryInput ? (
+          <Autocomplete ref={ref} type={type} id={id} name={name} {...rest} />
         ) : (
           <input
             ref={ref}

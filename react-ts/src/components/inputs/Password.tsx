@@ -10,7 +10,7 @@ interface PasswordProps {
 
 const Password = forwardRef<HTMLInputElement, PasswordProps>(
   function Input(props, ref) {
-    const { id, type, name, ...rest } = props;
+    const { ...rest } = props;
     const [password, setPassword] = useState('');
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,10 +20,8 @@ const Password = forwardRef<HTMLInputElement, PasswordProps>(
     return (
       <div className="form__input-wrapper">
         <input
+          className="form__input"
           ref={ref}
-          type={type}
-          id={id}
-          name={name}
           {...rest}
           onChange={(e) => handleChange(e)}
         />
