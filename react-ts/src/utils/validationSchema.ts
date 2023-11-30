@@ -9,6 +9,7 @@ export const schema = yup.object().shape({
     .required('Required'),
   age: yup
     .number()
+    .typeError('Must be a number')
     .positive('Must be positive')
     .integer('Must be integer')
     .required('Required'),

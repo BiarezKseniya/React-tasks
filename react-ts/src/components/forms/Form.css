@@ -1,14 +1,27 @@
 .form {
   display: grid;
-  max-width: 550px;
-  gap: 10px;
+  width: 350px;
+  gap: 15px;
   margin-top: 20px;
 }
 
 .form__field {
   display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.form__label-wrapper {
+  display: flex;
   justify-content: space-between;
-  gap: 30px;
+  align-items: center;
+  gap: 10px;
+}
+
+.form__error {
+  font-size: 0.8rem;
+  line-height: 1;
+  color: rgb(145, 16, 16);
 }
 
 .form__options {
@@ -17,6 +30,18 @@
 }
 
 .form__image-input {
+  display: none;
+}
+
+.form__input {
+  width: 100%;
+}
+
+.form__input[type='checkbox'] {
+  width: fit-content;
+}
+
+.form__input[type='file'] {
   display: none;
 }
 

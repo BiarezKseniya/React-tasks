@@ -6,14 +6,18 @@ export interface RadioButtonProps {
   type: string;
   name: string;
   options: string[];
+  error?: string;
 }
 
 const RadioButton = forwardRef<HTMLInputElement[], RadioButtonProps>(
   function RadioButton(props, ref) {
-    const { label, type, name, options } = props;
+    const { label, type, name, options, error } = props;
     return (
       <div className="form__field">
-        <label>{label}</label>
+        <div className="form__label-wrapper">
+          <label>{label}</label>
+          <div className="form__error">{error}</div>
+        </div>
         <div className="form__options">
           {options?.map((option, i) => {
             const id = name + i;

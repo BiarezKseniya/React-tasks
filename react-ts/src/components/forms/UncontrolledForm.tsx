@@ -57,7 +57,7 @@ const formData = [
 
 const UncontrolledForm = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const refs = formData.reduce((acc: FieldsAccumulator, field) => {
     if (field.type === 'radio') {
@@ -71,7 +71,7 @@ const UncontrolledForm = () => {
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
     const formValues = Object.entries(refs).reduce(
-      (acc: Record<string, string | boolean | null>, [id, ref]) => {
+      (acc: Record<string, string | boolean | null | File>, [id, ref]) => {
         console.log('ref', ref);
         if (Array.isArray(ref)) {
           const checkedRef = ref.find((r) => r.current?.checked);
@@ -79,6 +79,12 @@ const UncontrolledForm = () => {
             checkedRef && checkedRef.current ? checkedRef.current.value : null;
         } else if (ref.current?.type === 'checkbox' && !acc[id]) {
           acc[id] = ref.current?.checked;
+        } else if (ref.current?.type === 'file') {
+          if (ref.current?.files) {
+            acc[id] = ref.current?.files[0];
+          } else {
+            acc[id] = null;
+          }
         } else if (ref.current !== null) {
           acc[id] = ref.current.value;
         }
@@ -101,7 +107,6 @@ const UncontrolledForm = () => {
             return acc;
           }, {})
         );
-        console.log(errors);
       });
   };
 
@@ -113,6 +118,7 @@ const UncontrolledForm = () => {
             <RadioButton
               key={field.id}
               options={field.options || []}
+              error={errors[field.id]}
               {...field}
               ref={refs[field.id] as unknown as React.Ref<HTMLInputElement[]>}
             />
@@ -123,6 +129,7 @@ const UncontrolledForm = () => {
               key={field.id}
               {...field}
               ref={refs[field.id] as React.Ref<HTMLInputElement>}
+              error={errors[field.id]}
             />
           );
         }
