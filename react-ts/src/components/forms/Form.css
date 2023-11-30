@@ -20,6 +20,11 @@
   display: none;
 }
 
+.form__input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .form__field:has(.form__image-input) {
   justify-self: center;
 }
