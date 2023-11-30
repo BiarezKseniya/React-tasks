@@ -1,6 +1,6 @@
+import { schema } from '../../utils/validationSchema';
 import Input from '../inputs/Input';
 import RadioButton from '../inputs/RadioButton';
-import * as yup from 'yup';
 import './Form.css';
 import { FormEvent, createRef, useRef, useState } from 'react';
 
@@ -55,18 +55,6 @@ const formData = [
   },
 ];
 
-const schema = yup.object().shape({
-  name: yup.string().required(),
-  age: yup.number().positive().integer().required(),
-  email: yup.string().email().required(),
-  password1: yup.string().min(8).required(),
-  password2: yup.string().min(8).required(),
-  gender: yup.string().required(),
-  't&c': yup.mixed().oneOf([true], 'Must Accept Terms and Conditions'),
-  photo: yup.mixed().required(),
-  country: yup.string().required(),
-});
-
 const UncontrolledForm = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState({});
@@ -118,7 +106,7 @@ const UncontrolledForm = () => {
   };
 
   return (
-    <form ref={formRef} onSubmit={onSubmit} className="form">
+    <form ref={formRef} onSubmit={onSubmit} className="form" noValidate>
       {formData.map((field) => {
         if (field.type === 'radio') {
           return (
