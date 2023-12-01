@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { uncontrolledSchema } from '../../../utils/validationSchema';
 import Input from './inputs/Input';
 import RadioButton from './inputs/RadioButton';
@@ -51,6 +52,7 @@ const formData = [
 
 const UncontrolledForm = () => {
   const formRef = useRef<HTMLFormElement>(null);
+  const navigate = useNavigate();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const refs = formData.reduce((acc: FieldsAccumulator, field) => {
@@ -91,6 +93,7 @@ const UncontrolledForm = () => {
       .validate(formValues, { abortEarly: false })
       .then(() => {
         console.log('Validation passed');
+        navigate('/');
       })
       .catch((err) => {
         console.log('Validation failed');

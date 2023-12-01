@@ -3,6 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { controlledSchema } from '../../../utils/validationSchema';
 import Input from './inputs/Input';
 import RadioButton from './inputs/RadioButton';
+import { useNavigate } from 'react-router-dom';
 
 interface FormOutput {
   name: string;
@@ -62,6 +63,7 @@ const ControlledForm = () => {
     resolver: yupResolver(controlledSchema),
     mode: 'onChange',
   });
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -70,6 +72,7 @@ const ControlledForm = () => {
 
   const onSubmit = (data: FormOutput) => {
     console.log(data);
+    navigate('/');
   };
 
   return (
