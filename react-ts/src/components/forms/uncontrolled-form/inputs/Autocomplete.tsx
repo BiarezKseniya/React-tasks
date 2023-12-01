@@ -1,5 +1,4 @@
 import React, { forwardRef, useState } from 'react';
-import './Autocomplete.css';
 const countries = [
   'Afghanistan',
   'Albania',

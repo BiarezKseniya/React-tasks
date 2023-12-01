@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Autocomplete.css';
 import { useFormContext } from 'react-hook-form';
 const countries = [
   'Afghanistan',

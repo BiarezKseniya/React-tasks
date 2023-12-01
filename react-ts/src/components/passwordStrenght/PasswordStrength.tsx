@@ -1,5 +1,4 @@
 import zxcvbn from 'zxcvbn';
-import './PasswordStrength.css';
 
 const createPasswordLabel = (result: { score: number }) => {
   switch (result.score) {

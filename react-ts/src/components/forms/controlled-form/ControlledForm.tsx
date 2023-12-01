@@ -1,7 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { controlledSchema } from '../../../utils/validationSchema';
-import '../Form.css';
 import Input from './inputs/Input';
 import RadioButton from './inputs/RadioButton';
 

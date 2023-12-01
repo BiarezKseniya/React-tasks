@@ -1,7 +1,6 @@
 import { uncontrolledSchema } from '../../../utils/validationSchema';
 import Input from './inputs/Input';
 import RadioButton from './inputs/RadioButton';
-import '../Form.css';
 import { FormEvent, createRef, useRef, useState } from 'react';
 
 interface Error {
