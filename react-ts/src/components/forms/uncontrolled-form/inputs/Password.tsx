@@ -1,5 +1,5 @@
 import { forwardRef, useState } from 'react';
-import PasswordStrength from '../passwordStrenght/PasswordStrength';
+import PasswordStrength from '../../../passwordStrenght/PasswordStrength';
 
 interface PasswordProps {
   id: string;

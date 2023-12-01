@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
-import ControlledForm from './components/forms/ControlledForm';
-import UncontrolledForm from './components/forms/UncontrolledForm';
+import ControlledForm from './components/forms/controlled-form/ControlledForm';
+import UncontrolledForm from './components/forms/uncontrolled-form/UncontrolledForm';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([

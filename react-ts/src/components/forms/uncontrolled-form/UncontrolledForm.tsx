@@ -1,7 +1,7 @@
-import { schema } from '../../utils/validationSchema';
-import Input from '../inputs/Input';
-import RadioButton from '../inputs/RadioButton';
-import './Form.css';
+import { uncontrolledSchema } from '../../../utils/validationSchema';
+import Input from './inputs/Input';
+import RadioButton from './inputs/RadioButton';
+import '../Form.css';
 import { FormEvent, createRef, useRef, useState } from 'react';
 
 interface Error {
@@ -16,38 +16,33 @@ type FieldsAccumulator = Record<
 
 const formData = [
   {
-    id: 'name',
     label: 'Name:',
     type: 'text',
     name: 'name',
     placeholder: 'Enter your name',
   },
-  { id: 'age', label: 'Age:', type: 'number', name: 'age' },
+  { label: 'Age:', type: 'number', name: 'age' },
   {
-    id: 'email',
     label: 'Email:',
     type: 'email',
     name: 'email',
     placeholder: 'example@gmail.com',
   },
-  { id: 'password1', label: 'Password:', type: 'password', name: 'password' },
+  { label: 'Password:', type: 'password', name: 'password' },
   {
-    id: 'password2',
     label: 'Repeat password:',
     type: 'password',
-    name: 'password',
+    name: 'confirmPassword',
   },
   {
-    id: 'gender',
     label: 'Gender:',
     type: 'radio',
     name: 'gender',
     options: ['M', 'F'],
   },
-  { id: 't&c', label: 'Accept T&C:', type: 'checkbox', name: 't&c' },
-  { id: 'photo', label: 'Choose a photo', type: 'file', name: 'photo' },
+  { label: 'Accept T&C:', type: 'checkbox', name: 't&c' },
+  { label: 'Choose a photo', type: 'file', name: 'photo' },
   {
-    id: 'country',
     label: 'Country:',
     type: 'text',
     name: 'country',
@@ -61,9 +56,9 @@ const UncontrolledForm = () => {
 
   const refs = formData.reduce((acc: FieldsAccumulator, field) => {
     if (field.type === 'radio') {
-      acc[field.id] = (field.options || []).map(() => createRef());
+      acc[field.name] = (field.options || []).map(() => createRef());
     } else {
-      acc[field.id] = createRef();
+      acc[field.name] = createRef();
     }
     return acc;
   }, {});
@@ -71,8 +66,7 @@ const UncontrolledForm = () => {
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
     const formValues = Object.entries(refs).reduce(
-      (acc: Record<string, string | boolean | null | File>, [id, ref]) => {
-        console.log('ref', ref);
+      (acc: Record<string, string | boolean | null | FileList>, [id, ref]) => {
         if (Array.isArray(ref)) {
           const checkedRef = ref.find((r) => r.current?.checked);
           acc[id] =
@@ -81,7 +75,7 @@ const UncontrolledForm = () => {
           acc[id] = ref.current?.checked;
         } else if (ref.current?.type === 'file') {
           if (ref.current?.files) {
-            acc[id] = ref.current?.files[0];
+            acc[id] = ref.current?.files;
           } else {
             acc[id] = null;
           }
@@ -94,7 +88,7 @@ const UncontrolledForm = () => {
     );
     console.log('formValues', formValues);
 
-    schema
+    uncontrolledSchema
       .validate(formValues, { abortEarly: false })
       .then(() => {
         console.log('Validation passed');
@@ -116,20 +110,22 @@ const UncontrolledForm = () => {
         if (field.type === 'radio') {
           return (
             <RadioButton
-              key={field.id}
+              key={field.name}
               options={field.options || []}
-              error={errors[field.id]}
+              error={errors[field.name]}
+              id={field.name}
               {...field}
-              ref={refs[field.id] as unknown as React.Ref<HTMLInputElement[]>}
+              ref={refs[field.name] as unknown as React.Ref<HTMLInputElement[]>}
             />
           );
         } else {
           return (
             <Input
-              key={field.id}
+              key={field.name}
+              id={field.name}
               {...field}
-              ref={refs[field.id] as React.Ref<HTMLInputElement>}
-              error={errors[field.id]}
+              ref={refs[field.name] as React.Ref<HTMLInputElement>}
+              error={errors[field.name]}
             />
           );
         }

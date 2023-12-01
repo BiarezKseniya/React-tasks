@@ -15,7 +15,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   function Input(props, ref) {
     const { id, label, type, name, error, ...rest } = props;
     const isImageInput = type === 'file';
-    const isPassswordInput = id === 'password1';
+    const isPassswordInput = id === 'password';
     const isCountryInput = id === 'country';
 
     return (

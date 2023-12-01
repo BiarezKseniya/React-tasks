@@ -1,0 +1,25 @@
+.form__autocomplete {
+  position: relative;
+}
+
+.form__autocomplete-list {
+  position: absolute;
+  list-style: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+  background-color: var(--hover-color);
+  border-radius: 5px;
+  margin-right: -20px;
+  width: 100%;
+}
+
+.form__autocomplete-list li {
+  padding: 5px;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.form__autocomplete-list li:not(:last-of-type) {
+  border-bottom: 1px solid #999;
+}

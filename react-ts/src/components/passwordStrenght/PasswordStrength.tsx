@@ -19,7 +19,6 @@ const createPasswordLabel = (result: { score: number }) => {
 };
 const PasswordStrength = ({ password }: { password: string }) => {
   const testedResult = zxcvbn(password);
-  console.log(testedResult);
   const passwordLabel = createPasswordLabel(testedResult);
 
   return (
