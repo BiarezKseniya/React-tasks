@@ -65,7 +65,7 @@ const ControlledForm = () => {
 
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = methods;
 
   const onSubmit = (data: FormOutput) => {
@@ -97,7 +97,9 @@ const ControlledForm = () => {
             );
           }
         })}
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={!isValid}>
+          Submit
+        </button>
       </form>
     </FormProvider>
   );
