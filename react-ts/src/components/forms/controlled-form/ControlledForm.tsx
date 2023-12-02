@@ -83,6 +83,8 @@ const ControlledForm = () => {
       addFormOutput({
         ...data,
         photo: base64String,
+        isNew: true,
+        id: new Date().toISOString(),
       })
     );
     navigate('/');

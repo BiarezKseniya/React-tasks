@@ -3,10 +3,15 @@
   flex-direction: column;
   gap: 5px;
   padding: 20px;
-  border: 1px solid white;
   border-radius: 5px;
   width: 250px;
   line-height: auto;
+  background-color: var(--secondary-color);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  border: 1px solid transparent;
+  transition: 0.3s;
 }
 
 .data-card__field {
@@ -42,4 +47,12 @@
   border-radius: 5px;
   height: 100%;
   width: 100%;
+}
+
+.data-card_new {
+  border: 1px solid white;
+  box-shadow:
+    0 1px 3px rgba(255, 255, 255, 0.12),
+    0 1px 2px rgba(255, 255, 255, 0.24);
+  background-color: var(--hover-color);
 }

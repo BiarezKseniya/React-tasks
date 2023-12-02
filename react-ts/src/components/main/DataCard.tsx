@@ -1,11 +1,32 @@
-import { FormOutputStored } from '../../store/slices/formSlice';
+import { useDispatch } from 'react-redux';
+import { FormOutputStored, setIsNew } from '../../store/slices/formSlice';
+import { useEffect, useRef } from 'react';
 
 const DataCard = ({ data }: { data: FormOutputStored }) => {
+  const dispatch = useDispatch();
+  const isNewRef = useRef(data.isNew);
+  const idRef = useRef(data.id);
+
   const dataArray = Object.entries(data)
-    .filter(([key]) => key !== 'password' && key !== 'confirmPassword')
+    .filter(
+      ([key]) =>
+        key !== 'password' &&
+        key !== 'confirmPassword' &&
+        key !== 'isNew' &&
+        key !== 'id'
+    )
     .reverse();
+
+  useEffect(() => {
+    if (isNewRef.current) {
+      setTimeout(() => {
+        dispatch(setIsNew(idRef.current));
+      }, 3000);
+    }
+  }, [dispatch]);
+
   return (
-    <div className="data-card">
+    <div className={`data-card ${data.isNew ? 'data-card_new' : ''}`}>
       {dataArray.map(([key, value]) => (
         <div className="data-card__field" key={key}>
           {key === 'photo' ? (

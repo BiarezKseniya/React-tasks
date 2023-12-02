@@ -111,6 +111,8 @@ const UncontrolledForm = () => {
           addFormOutput({
             ...(formValues as unknown as FormOutput),
             photo: base64String,
+            isNew: true,
+            id: new Date().toISOString(),
           })
         );
         navigate('/');

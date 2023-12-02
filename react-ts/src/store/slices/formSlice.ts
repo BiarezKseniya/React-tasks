@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface FormOutputStored {
+  id: string;
   name: string | undefined;
   age: number | undefined;
   email: string | undefined;
@@ -11,6 +12,7 @@ export interface FormOutputStored {
   't&c': boolean | undefined;
   photo: string | undefined;
   country: string | undefined;
+  isNew: boolean;
 }
 
 interface FormState {
@@ -227,9 +229,15 @@ export const formSlice = createSlice({
     addFormOutput: (state, action: PayloadAction<FormOutputStored>) => {
       state.formHistory.push(action.payload);
     },
+    setIsNew: (state, action: PayloadAction<string>) => {
+      const form = state.formHistory.find((item) => item.id === action.payload);
+      if (form) {
+        form.isNew = false;
+      }
+    },
   },
 });
 
-export const { addFormOutput } = formSlice.actions;
+export const { addFormOutput, setIsNew } = formSlice.actions;
 
 export default formSlice.reducer;
