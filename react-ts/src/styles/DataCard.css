@@ -1,0 +1,45 @@
+.data-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 20px;
+  border: 1px solid white;
+  border-radius: 5px;
+  width: 250px;
+  line-height: auto;
+}
+
+.data-card__field {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  word-break: break-word;
+  text-align: left;
+  font-size: 1rem;
+}
+
+.data-card__field:has(.data-card__image) {
+  order: -1;
+}
+
+.data-card__field:has(.name) {
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  order: -2;
+}
+
+.data-card__label {
+  font-weight: bold;
+}
+
+.data-card__image {
+  width: 250px;
+  height: 250px;
+}
+
+.data-card__image img {
+  object-fit: cover;
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+}

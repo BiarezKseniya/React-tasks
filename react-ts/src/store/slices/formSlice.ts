@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-interface FormOutputStored {
+export interface FormOutputStored {
   name: string | undefined;
   age: number | undefined;
   email: string | undefined;
