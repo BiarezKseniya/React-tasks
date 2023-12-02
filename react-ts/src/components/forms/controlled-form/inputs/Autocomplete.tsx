@@ -28,7 +28,6 @@ const Autocomplete = (props: AutocompleteProps) => {
       setSuggestions([]);
     }
     propsFromRegister.onChange(event);
-    console.log(event);
   };
 
   const suggestionSelected = (value: string) => {

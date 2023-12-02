@@ -15,7 +15,6 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const { ...rest } = props;
     const countries = useSelector((state: RootState) => state.form.countryList);
-    console.log(countries);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;

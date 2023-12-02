@@ -106,8 +106,5 @@ const controlledShape = {
   country: yup.string().required('Required'),
 };
 
-console.log('uncontrolledShape', uncontrolledShape);
-console.log('controlledShape', controlledShape);
-
 export const uncontrolledSchema = yup.object().shape(uncontrolledShape);
 export const controlledSchema = yup.object().shape(controlledShape);

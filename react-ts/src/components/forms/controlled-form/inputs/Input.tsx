@@ -16,7 +16,6 @@ const Input = ({ id, label, type, error, ...rest }: InputProps) => {
   const isPassswordInput = id === 'password';
   const isCountryInput = id === 'country';
   const { register } = useFormContext();
-  const propsFromRegister = register(id);
 
   return (
     <div className="form__field">
@@ -41,10 +40,6 @@ const Input = ({ id, label, type, error, ...rest }: InputProps) => {
           className={'form__input'}
           {...rest}
           {...register(id)}
-          onChange={(e) => {
-            console.log(e, propsFromRegister.onChange);
-            propsFromRegister.onChange(e);
-          }}
         />
       )}
     </div>
