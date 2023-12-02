@@ -6,6 +6,7 @@ import { FormEvent, createRef, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addFormOutput } from '../../../store/slices/formSlice';
 import { FormOutput } from '../controlled-form/ControlledForm';
+import { handleImageUpload } from '../../../utils/imageHandler';
 
 interface Error {
   path: string;
@@ -101,8 +102,17 @@ const UncontrolledForm = () => {
 
     uncontrolledSchema
       .validate(formValues, { abortEarly: false })
-      .then(() => {
-        dispatch(addFormOutput(formValues as unknown as FormOutput));
+      .then(async () => {
+        let base64String;
+        if (formValues.photo instanceof FileList) {
+          base64String = await handleImageUpload(formValues.photo[0]);
+        }
+        dispatch(
+          addFormOutput({
+            ...(formValues as unknown as FormOutput),
+            photo: base64String,
+          })
+        );
         navigate('/');
       })
       .catch((err) => {

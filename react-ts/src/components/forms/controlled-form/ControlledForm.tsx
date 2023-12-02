@@ -6,6 +6,7 @@ import RadioButton from './inputs/RadioButton';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addFormOutput } from '../../../store/slices/formSlice';
+import { handleImageUpload } from '../../../utils/imageHandler';
 
 export interface FormOutput {
   name: string | undefined;
@@ -73,8 +74,17 @@ const ControlledForm = () => {
     formState: { errors, isValid },
   } = methods;
 
-  const onSubmit = (data: FormOutput) => {
-    dispatch(addFormOutput(data));
+  const onSubmit = async (data: FormOutput) => {
+    let base64String;
+    if (data.photo instanceof FileList) {
+      base64String = await handleImageUpload(data.photo[0]);
+    }
+    dispatch(
+      addFormOutput({
+        ...data,
+        photo: base64String,
+      })
+    );
     navigate('/');
   };
 

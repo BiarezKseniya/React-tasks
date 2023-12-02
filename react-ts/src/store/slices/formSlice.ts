@@ -1,10 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { FormOutput } from '../../components/forms/controlled-form/ControlledForm';
+
+interface FormOutputStored {
+  name: string | undefined;
+  age: number | undefined;
+  email: string | undefined;
+  password: string | undefined;
+  confirmPassword: string | undefined;
+  gender: 'M' | 'F' | undefined;
+  't&c': boolean | undefined;
+  photo: string | undefined;
+  country: string | undefined;
+}
 
 interface FormState {
   countryList: string[];
-  formHistory: FormOutput[];
+  formHistory: FormOutputStored[];
 }
 
 const initialState: FormState = {
@@ -213,7 +224,7 @@ export const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    addFormOutput: (state, action: PayloadAction<FormOutput>) => {
+    addFormOutput: (state, action: PayloadAction<FormOutputStored>) => {
       state.formHistory.push(action.payload);
     },
   },
