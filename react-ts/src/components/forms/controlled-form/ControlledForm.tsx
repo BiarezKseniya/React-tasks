@@ -4,17 +4,19 @@ import { controlledSchema } from '../../../utils/validationSchema';
 import Input from './inputs/Input';
 import RadioButton from './inputs/RadioButton';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addFormOutput } from '../../../store/slices/formSlice';
 
-interface FormOutput {
-  name: string;
-  age: number;
-  email: string;
-  password: string;
-  confirmPassword: string;
+export interface FormOutput {
+  name: string | undefined;
+  age: number | undefined;
+  email: string | undefined;
+  password: string | undefined;
+  confirmPassword: string | undefined;
   gender: NonNullable<'M' | 'F' | undefined>;
   't&c': NonNullable<boolean | undefined>;
   photo: FileList | unknown;
-  country: string;
+  country: string | undefined;
 }
 
 type FieldErrors = {
@@ -59,6 +61,7 @@ const formData = [
   },
 ];
 const ControlledForm = () => {
+  const dispatch = useDispatch();
   const methods = useForm({
     resolver: yupResolver(controlledSchema),
     mode: 'onChange',
@@ -71,7 +74,7 @@ const ControlledForm = () => {
   } = methods;
 
   const onSubmit = (data: FormOutput) => {
-    console.log(data);
+    dispatch(addFormOutput(data));
     navigate('/');
   };
 

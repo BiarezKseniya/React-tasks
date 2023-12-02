@@ -3,6 +3,9 @@ import { uncontrolledSchema } from '../../../utils/validationSchema';
 import Input from './inputs/Input';
 import RadioButton from './inputs/RadioButton';
 import { FormEvent, createRef, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addFormOutput } from '../../../store/slices/formSlice';
+import { FormOutput } from '../controlled-form/ControlledForm';
 
 interface Error {
   path: string;
@@ -53,6 +56,7 @@ const formData = [
 const UncontrolledForm = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const refs = formData.reduce((acc: FieldsAccumulator, field) => {
@@ -66,37 +70,42 @@ const UncontrolledForm = () => {
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
-    const formValues = Object.entries(refs).reduce(
-      (acc: Record<string, string | boolean | null | FileList>, [id, ref]) => {
-        if (Array.isArray(ref)) {
-          const checkedRef = ref.find((r) => r.current?.checked);
-          acc[id] =
-            checkedRef && checkedRef.current ? checkedRef.current.value : null;
-        } else if (ref.current?.type === 'checkbox' && !acc[id]) {
-          acc[id] = ref.current?.checked;
-        } else if (ref.current?.type === 'file') {
-          if (ref.current?.files) {
-            acc[id] = ref.current?.files;
-          } else {
-            acc[id] = null;
+    const formValues = Object.entries(refs)
+      .reverse()
+      .reduce(
+        (
+          acc: Record<string, string | boolean | null | FileList>,
+          [id, ref]
+        ) => {
+          if (Array.isArray(ref)) {
+            const checkedRef = ref.find((r) => r.current?.checked);
+            acc[id] =
+              checkedRef && checkedRef.current
+                ? checkedRef.current.value
+                : null;
+          } else if (ref.current?.type === 'checkbox' && !acc[id]) {
+            acc[id] = ref.current?.checked;
+          } else if (ref.current?.type === 'file') {
+            if (ref.current?.files) {
+              acc[id] = ref.current?.files;
+            } else {
+              acc[id] = null;
+            }
+          } else if (ref.current !== null) {
+            acc[id] = ref.current.value;
           }
-        } else if (ref.current !== null) {
-          acc[id] = ref.current.value;
-        }
-        return acc;
-      },
-      {}
-    );
-    console.log('formValues', formValues);
+          return acc;
+        },
+        {}
+      );
 
     uncontrolledSchema
       .validate(formValues, { abortEarly: false })
       .then(() => {
-        console.log('Validation passed');
+        dispatch(addFormOutput(formValues as unknown as FormOutput));
         navigate('/');
       })
       .catch((err) => {
-        console.log('Validation failed');
         setErrors(
           err.inner.reduce((acc: Record<string, string>, current: Error) => {
             acc[current.path] = current.message;
