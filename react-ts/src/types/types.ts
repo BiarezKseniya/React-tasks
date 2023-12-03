@@ -3,3 +3,8 @@ export type FieldErrors = {
     message: string;
   };
 };
+
+export type FieldsAccumulator = Record<
+  string,
+  React.RefObject<HTMLInputElement> | React.RefObject<HTMLInputElement>[]
+>;

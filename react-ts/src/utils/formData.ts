@@ -1,35 +1,37 @@
+import { InputNames, InputTypes } from '../types/enum';
+
 export const formData = [
   {
     label: 'Name:',
-    type: 'text',
-    name: 'name',
+    type: InputTypes.TEXT,
+    name: InputNames.NAME,
     placeholder: 'Enter your name',
   },
   { label: 'Age:', type: 'number', name: 'age' },
   {
     label: 'Email:',
-    type: 'email',
-    name: 'email',
+    type: InputTypes.EMAIL,
+    name: InputNames.EMAIL,
     placeholder: 'example@gmail.com',
   },
-  { label: 'Password:', type: 'password', name: 'password' },
+  { label: 'Password:', type: InputTypes.PASSWORD, name: InputNames.PASSWORD },
   {
     label: 'Repeat password:',
-    type: 'password',
-    name: 'confirmPassword',
+    type: InputTypes.PASSWORD,
+    name: InputNames.CONFIRM_PASSWORD,
   },
   {
     label: 'Gender:',
-    type: 'radio',
-    name: 'gender',
+    type: InputTypes.RADIO,
+    name: InputNames.GENDER,
     options: ['M', 'F'],
   },
-  { label: 'Accept T&C:', type: 'checkbox', name: 't&c' },
-  { label: 'Choose a photo:', type: 'file', name: 'photo' },
+  { label: 'Accept T&C:', type: InputTypes.CHECKBOX, name: InputNames.T_C },
+  { label: 'Choose a photo:', type: InputTypes.FILE, name: InputNames.PHOTO },
   {
     label: 'Country:',
-    type: 'text',
-    name: 'country',
+    type: InputTypes.TEXT,
+    name: InputNames.COUNTRY,
     placeholder: 'Enter your country',
   },
 ];

@@ -2,10 +2,11 @@ import Password from './Password';
 import Autocomplete from './Autocomplete';
 import { useFormContext } from 'react-hook-form';
 import { InputProps } from '../../../../types/interfaces';
+import { InputNames } from '../../../../types/enum';
 
 const Input = ({ id, label, type, error, ...rest }: InputProps) => {
-  const isPassswordInput = id === 'password';
-  const isCountryInput = id === 'country';
+  const isPassswordInput = id === InputNames.PASSWORD;
+  const isCountryInput = id === InputNames.COUNTRY;
   const { register } = useFormContext();
 
   return (
@@ -26,7 +27,7 @@ const Input = ({ id, label, type, error, ...rest }: InputProps) => {
         <input
           type={type}
           id={id}
-          className={'form__input'}
+          className="form__input"
           {...rest}
           {...register(id)}
         />

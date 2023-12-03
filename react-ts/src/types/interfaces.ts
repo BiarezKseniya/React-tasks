@@ -38,7 +38,7 @@ export interface FormOutput {
   confirmPassword: string | undefined;
   gender: NonNullable<'M' | 'F' | undefined>;
   't&c': NonNullable<boolean | undefined>;
-  photo: FileList | unknown;
+  photo?: FileList | unknown;
   country: string | undefined;
 }
 
@@ -59,4 +59,9 @@ export interface FormOutputStored {
 export interface FormState {
   countryList: string[];
   formHistory: FormOutputStored[];
+}
+
+export interface UncontrolledError {
+  path: string;
+  message: string;
 }

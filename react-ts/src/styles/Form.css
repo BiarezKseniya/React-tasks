@@ -25,7 +25,7 @@
 .form__error {
   font-size: 0.8rem;
   line-height: 1;
-  color: rgb(145, 16, 16);
+  color: #ffabab;
 }
 
 .form__options {
@@ -82,4 +82,10 @@
 .form__input-wrapper {
   display: flex;
   flex-direction: column;
+}
+
+.form__note {
+  line-height: 0.8rem;
+  text-align: center;
+  font-size: 0.8rem;
 }

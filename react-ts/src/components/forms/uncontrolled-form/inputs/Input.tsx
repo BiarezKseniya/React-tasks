@@ -2,12 +2,13 @@ import { forwardRef } from 'react';
 import Password from './Password';
 import Autocomplete from './Autocomplete';
 import { InputProps } from '../../../../types/interfaces';
+import { InputNames } from '../../../../types/enum';
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   function Input(props, ref) {
     const { id, label, type, name, error, ...rest } = props;
-    const isPassswordInput = id === 'password';
-    const isCountryInput = id === 'country';
+    const isPassswordInput = id === InputNames.PASSWORD;
+    const isCountryInput = id === InputNames.COUNTRY;
 
     return (
       <div className="form__field">

@@ -7,17 +7,9 @@ import { useDispatch } from 'react-redux';
 import { addFormOutput } from '../../../store/slices/formSlice';
 import { handleImageUpload } from '../../../utils/imageHandler';
 import { formData } from '../../../utils/formData';
-import { FormOutput } from '../../../types/interfaces';
-
-interface Error {
-  path: string;
-  message: string;
-}
-
-type FieldsAccumulator = Record<
-  string,
-  React.RefObject<HTMLInputElement> | React.RefObject<HTMLInputElement>[]
->;
+import { FormOutput, UncontrolledError } from '../../../types/interfaces';
+import { FieldsAccumulator } from '../../../types/types';
+import { InputTypes } from '../../../types/enum';
 
 const UncontrolledForm = () => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -26,7 +18,7 @@ const UncontrolledForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const refs = formData.reduce((acc: FieldsAccumulator, field) => {
-    if (field.type === 'radio') {
+    if (field.type === InputTypes.RADIO) {
       acc[field.name] = (field.options || []).map(() => createRef());
     } else {
       acc[field.name] = createRef();
@@ -84,10 +76,13 @@ const UncontrolledForm = () => {
       })
       .catch((err) => {
         setErrors(
-          err.inner.reduce((acc: Record<string, string>, current: Error) => {
-            acc[current.path] = current.message;
-            return acc;
-          }, {})
+          err.inner.reduce(
+            (acc: Record<string, string>, current: UncontrolledError) => {
+              acc[current.path] = current.message;
+              return acc;
+            },
+            {}
+          )
         );
       });
   };
@@ -95,7 +90,7 @@ const UncontrolledForm = () => {
   return (
     <form ref={formRef} onSubmit={onSubmit} className="form" noValidate>
       {formData.map((field) => {
-        if (field.type === 'radio') {
+        if (field.type === InputTypes.RADIO) {
           return (
             <RadioButton
               key={field.name}
@@ -119,6 +114,7 @@ const UncontrolledForm = () => {
         }
       })}
       <button>Submit</button>
+      <div className="form__note">Note: all fields are required</div>
     </form>
   );
 };

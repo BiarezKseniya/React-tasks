@@ -10,12 +10,13 @@ import { handleImageUpload } from '../../../utils/imageHandler';
 import { formData } from '../../../utils/formData';
 import { FormOutput } from '../../../types/interfaces';
 import { FieldErrors } from '../../../types/types';
+import { InputTypes } from '../../../types/enum';
 
 const ControlledForm = () => {
   const dispatch = useDispatch();
   const methods = useForm({
     resolver: yupResolver(controlledSchema),
-    mode: 'onChange',
+    mode: 'onTouched',
   });
   const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ const ControlledForm = () => {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="form" noValidate>
         {formData.map((field) => {
-          if (field.type === 'radio') {
+          if (field.type === InputTypes.RADIO) {
             return (
               <RadioButton
                 key={field.name}
@@ -68,6 +69,7 @@ const ControlledForm = () => {
         <button type="submit" disabled={!isValid}>
           Submit
         </button>
+        <div className="form__note">Note: all fields are required</div>
       </form>
     </FormProvider>
   );
