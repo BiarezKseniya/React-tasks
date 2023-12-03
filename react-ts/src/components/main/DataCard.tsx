@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
-import { FormOutputStored, setIsNew } from '../../store/slices/formSlice';
+import { setIsNew } from '../../store/slices/formSlice';
 import { useEffect, useRef } from 'react';
+import { FormOutputStored } from '../../types/interfaces';
 
 const DataCard = ({ data }: { data: FormOutputStored }) => {
   const dispatch = useDispatch();

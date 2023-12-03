@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import DataCard from './DataCard';
 import { RootState } from '../../store/store';
-import { FormOutputStored } from '../../store/slices/formSlice';
+import { FormOutputStored } from '../../types/interfaces';
 
 const Main = () => {
   const formsData = useSelector((state: RootState) => state.form.formHistory);
