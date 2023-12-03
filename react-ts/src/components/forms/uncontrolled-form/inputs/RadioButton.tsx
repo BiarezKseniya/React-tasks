@@ -7,7 +7,7 @@ const RadioButton = forwardRef<HTMLInputElement[], RadioButtonProps>(
     return (
       <div className="form__field">
         <div className="form__label-wrapper">
-          <label>{label}</label>
+          <legend>{label}</legend>
           <div className="form__error">{error}</div>
         </div>
         <div className="form__options">
