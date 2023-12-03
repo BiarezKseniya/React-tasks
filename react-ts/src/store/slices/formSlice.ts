@@ -209,7 +209,7 @@ export const formSlice = createSlice({
   initialState,
   reducers: {
     addFormOutput: (state, action: PayloadAction<FormOutputStored>) => {
-      state.formHistory.push(action.payload);
+      state.formHistory.unshift(action.payload);
     },
     setIsNew: (state, action: PayloadAction<string>) => {
       const form = state.formHistory.find((item) => item.id === action.payload);
