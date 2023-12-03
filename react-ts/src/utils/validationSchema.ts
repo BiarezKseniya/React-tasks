@@ -13,7 +13,14 @@ const uncontrolledShape = {
     .positive('Must be positive')
     .integer('Must be integer')
     .required('Required'),
-  email: yup.string().email('Invalid email').required('Required'),
+  email: yup
+    .string()
+    .email('Invalid email')
+    .matches(
+      /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/,
+      'Invalid email'
+    )
+    .required('Required'),
   password: yup
     .string()
     .matches(/[^A-Za-z0-9]/, 'At least one special character')
@@ -65,7 +72,14 @@ const controlledShape = {
     .positive('Must be positive')
     .integer('Must be integer')
     .required('Required'),
-  email: yup.string().email('Invalid email').required('Required'),
+  email: yup
+    .string()
+    .email('Invalid email')
+    .matches(
+      /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/,
+      'Invalid email'
+    )
+    .required('Required'),
   password: yup
     .string()
     .min(8, 'Min 8 characters')
