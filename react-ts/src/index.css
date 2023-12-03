@@ -80,6 +80,11 @@ input:focus-visible {
   outline: 2px auto var(--hover-color);
 }
 
+input[type='file']:focus,
+input[type='file']:focus-visible {
+  outline: none;
+}
+
 button:disabled {
   background-color: #ccc;
   color: #888;

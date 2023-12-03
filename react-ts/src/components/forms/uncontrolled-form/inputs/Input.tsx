@@ -14,19 +14,13 @@ interface InputProps {
 const Input = forwardRef<HTMLInputElement, InputProps>(
   function Input(props, ref) {
     const { id, label, type, name, error, ...rest } = props;
-    const isImageInput = type === 'file';
     const isPassswordInput = id === 'password';
     const isCountryInput = id === 'country';
 
     return (
       <div className="form__field">
         <div className="form__label-wrapper">
-          <label
-            htmlFor={id}
-            className={isImageInput ? 'form__image-label' : ''}
-          >
-            {label}
-          </label>
+          <label htmlFor={id}>{label}</label>
           {error && (
             <div className="form__error" role="alert">
               {error}

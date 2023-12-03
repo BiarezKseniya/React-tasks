@@ -18,6 +18,10 @@
   gap: 10px;
 }
 
+.form__label-wrapper label[for='photo'] {
+  cursor: pointer;
+}
+
 .form__error {
   font-size: 0.8rem;
   line-height: 1;
@@ -29,10 +33,6 @@
   gap: 10px;
 }
 
-.form__image-input {
-  display: none;
-}
-
 .form__input {
   width: 100%;
 }
@@ -42,27 +42,44 @@
 }
 
 .form__input[type='file'] {
-  display: none;
+  padding: 0 5px;
+  width: 100%;
+}
+
+.form__input[type='file']:active {
+  border: none;
+}
+
+.form__input[type='file']::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.form__input[type='file']::before {
+  content: 'Select a file';
+  display: inline-block;
+  background: transparent;
+  white-space: nowrap;
+  width: calc(100% - 12px);
+  margin: 0 -5px;
+  padding: 10px;
+  border: 1px solid var(--contrast-color);
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.form__input[type='file']:hover::before {
+  background-color: var(--secondary-color);
+}
+
+.form__input[type='file']::before:focus,
+.form__input[type='file']::before:focus-visible {
+  outline: 2px auto var(--hover-color);
 }
 
 .form__input-wrapper {
   display: flex;
   flex-direction: column;
-}
-
-.form__field:has(.form__image-input) {
-  justify-self: center;
-}
-
-.form__image-label {
-  margin: 5px 0;
-  padding: 10px;
-  border: 1px solid var(--contrast-color);
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.form__image-label:hover {
-  background-color: var(--secondary-color);
 }

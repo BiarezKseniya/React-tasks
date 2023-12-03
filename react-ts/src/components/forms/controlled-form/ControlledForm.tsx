@@ -53,7 +53,7 @@ const formData = [
     options: ['M', 'F'],
   },
   { label: 'Accept T&C:', type: 'checkbox', name: 't&c' },
-  { label: 'Choose a photo', type: 'file', name: 'photo' },
+  { label: 'Choose a photo:', type: 'file', name: 'photo' },
   {
     label: 'Country:',
     type: 'text',
