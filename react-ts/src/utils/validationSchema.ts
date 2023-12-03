@@ -16,10 +16,7 @@ const uncontrolledShape = {
   email: yup
     .string()
     .email('Invalid email')
-    .matches(
-      /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/,
-      'Invalid email'
-    )
+    .test('hasDot', 'Invalid email', (value) => value?.includes('.'))
     .required('Required'),
   password: yup
     .string()
@@ -57,7 +54,9 @@ const uncontrolledShape = {
         ['image/jpeg', 'image/png'].includes((value as FileList)[0].type)
       );
     })
-    .required('Required'),
+    .test('present', 'Required', (value) => {
+      return Boolean(value && (value as FileList)[0]);
+    }),
   country: yup.string().required('Required'),
 };
 
@@ -74,20 +73,17 @@ const controlledShape = {
     .required('Required'),
   email: yup
     .string()
+    .required('Required')
     .email('Invalid email')
-    .matches(
-      /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/,
-      'Invalid email'
-    )
-    .required('Required'),
+    .test('hasDot', 'Invalid email', (value) => value?.includes('.')),
   password: yup
     .string()
+    .required('Required')
     .min(8, 'Min 8 characters')
     .matches(/\d/, 'At least one number (0-9)')
     .matches(/[a-z]/, 'At least one lowercase letter (a-z)')
     .matches(/[A-Z]/, 'At least one uppercase letter (A-Z)')
-    .matches(/[^A-Za-z0-9]/, 'At least one special character')
-    .required('Required'),
+    .matches(/[^A-Za-z0-9]/, 'At least one special character'),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('password')], 'Passwords must match')
@@ -102,6 +98,9 @@ const controlledShape = {
     .required('Required'),
   photo: yup
     .mixed()
+    .test('present', 'Required', (value) => {
+      return Boolean(value && (value as FileList)[0]);
+    })
     .test('fileSize', 'Max size is 5MB', (value) => {
       return (
         value &&
@@ -115,8 +114,7 @@ const controlledShape = {
         (value as FileList)[0] &&
         ['image/jpeg', 'image/png'].includes((value as FileList)[0].type)
       );
-    })
-    .required('Required'),
+    }),
   country: yup.string().required('Required'),
 };
 

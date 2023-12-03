@@ -16,7 +16,7 @@ const ControlledForm = () => {
   const dispatch = useDispatch();
   const methods = useForm({
     resolver: yupResolver(controlledSchema),
-    mode: 'onTouched',
+    mode: 'all',
   });
   const navigate = useNavigate();
 
