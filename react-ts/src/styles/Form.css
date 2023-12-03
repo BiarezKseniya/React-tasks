@@ -70,10 +70,6 @@
   text-align: center;
 }
 
-.form__input[type='file']:hover::before {
-  background-color: var(--secondary-color);
-}
-
 .form__input[type='file']::before:focus,
 .form__input[type='file']::before:focus-visible {
   outline: 2px auto var(--hover-color);
@@ -88,4 +84,16 @@
   line-height: 0.8rem;
   text-align: center;
   font-size: 0.8rem;
+}
+
+@media (max-width: 480px) {
+  .form {
+    width: 100%;
+  }
+}
+
+@media (hover: hover) {
+  .form__input[type='file']:hover::before {
+    background-color: var(--secondary-color);
+  }
 }
