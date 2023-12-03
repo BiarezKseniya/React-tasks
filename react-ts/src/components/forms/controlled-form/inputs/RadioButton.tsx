@@ -1,13 +1,5 @@
 import { useFormContext } from 'react-hook-form';
-
-export interface RadioButtonProps {
-  id: string;
-  label: string;
-  type: string;
-  name: string;
-  options: string[];
-  error?: string;
-}
+import { RadioButtonProps } from '../../../../types/interfaces';
 
 const RadioButton = ({
   label,

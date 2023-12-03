@@ -1,13 +1,7 @@
 import React, { forwardRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
-
-interface AutocompleteProps {
-  id: string;
-  type: string;
-  name: string;
-  placeholder?: string;
-}
+import { AutocompleteProps } from '../../../../types/interfaces';
 
 const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
   function Autocomplete(props, ref) {

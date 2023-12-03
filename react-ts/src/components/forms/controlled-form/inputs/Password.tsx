@@ -1,13 +1,7 @@
 import { useState } from 'react';
 import PasswordStrength from '../../../passwordStrenght/PasswordStrength';
 import { useFormContext } from 'react-hook-form';
-
-interface PasswordProps {
-  id: string;
-  type: string;
-  name: string;
-  placeholder?: string;
-}
+import { PasswordProps } from '../../../../types/interfaces';
 
 const Password = (props: PasswordProps) => {
   const [password, setPassword] = useState('');

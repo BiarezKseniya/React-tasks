@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
-
-interface AutocompleteProps {
-  id: string;
-  type: string;
-  name: string;
-  placeholder?: string;
-}
+import { AutocompleteProps } from '../../../../types/interfaces';
 
 const Autocomplete = (props: AutocompleteProps) => {
   const [input, setInput] = useState('');

@@ -7,60 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addFormOutput } from '../../../store/slices/formSlice';
 import { handleImageUpload } from '../../../utils/imageHandler';
+import { formData } from '../../../utils/formData';
+import { FormOutput } from '../../../types/interfaces';
+import { FieldErrors } from '../../../types/types';
 
-export interface FormOutput {
-  name: string | undefined;
-  age: number | undefined;
-  email: string | undefined;
-  password: string | undefined;
-  confirmPassword: string | undefined;
-  gender: NonNullable<'M' | 'F' | undefined>;
-  't&c': NonNullable<boolean | undefined>;
-  photo: FileList | unknown;
-  country: string | undefined;
-}
-
-type FieldErrors = {
-  [key: string]: {
-    message: string;
-  };
-};
-
-const formData = [
-  {
-    label: 'Name:',
-    type: 'text',
-    name: 'name',
-    placeholder: 'Enter your name',
-  },
-  { label: 'Age:', type: 'number', name: 'age' },
-  {
-    label: 'Email:',
-    type: 'email',
-    name: 'email',
-    placeholder: 'example@gmail.com',
-  },
-  { label: 'Password:', type: 'password', name: 'password' },
-  {
-    label: 'Repeat password:',
-    type: 'password',
-    name: 'confirmPassword',
-  },
-  {
-    label: 'Gender:',
-    type: 'radio',
-    name: 'gender',
-    options: ['M', 'F'],
-  },
-  { label: 'Accept T&C:', type: 'checkbox', name: 't&c' },
-  { label: 'Choose a photo:', type: 'file', name: 'photo' },
-  {
-    label: 'Country:',
-    type: 'text',
-    name: 'country',
-    placeholder: 'Enter your country',
-  },
-];
 const ControlledForm = () => {
   const dispatch = useDispatch();
   const methods = useForm({

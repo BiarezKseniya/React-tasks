@@ -1,15 +1,7 @@
 import Password from './Password';
 import Autocomplete from './Autocomplete';
 import { useFormContext } from 'react-hook-form';
-
-interface InputProps {
-  id: string;
-  label: string;
-  type: string;
-  name: string;
-  placeholder?: string;
-  error?: string;
-}
+import { InputProps } from '../../../../types/interfaces';
 
 const Input = ({ id, label, type, error, ...rest }: InputProps) => {
   const isPassswordInput = id === 'password';

@@ -1,12 +1,6 @@
 import { forwardRef, useState } from 'react';
 import PasswordStrength from '../../../passwordStrenght/PasswordStrength';
-
-interface PasswordProps {
-  id: string;
-  type: string;
-  name: string;
-  placeholder?: string;
-}
+import { PasswordProps } from '../../../../types/interfaces';
 
 const Password = forwardRef<HTMLInputElement, PasswordProps>(
   function Input(props, ref) {

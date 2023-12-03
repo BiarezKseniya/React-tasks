@@ -5,8 +5,9 @@ import RadioButton from './inputs/RadioButton';
 import { FormEvent, createRef, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addFormOutput } from '../../../store/slices/formSlice';
-import { FormOutput } from '../controlled-form/ControlledForm';
 import { handleImageUpload } from '../../../utils/imageHandler';
+import { formData } from '../../../utils/formData';
+import { FormOutput } from '../../../types/interfaces';
 
 interface Error {
   path: string;
@@ -17,42 +18,6 @@ type FieldsAccumulator = Record<
   string,
   React.RefObject<HTMLInputElement> | React.RefObject<HTMLInputElement>[]
 >;
-
-const formData = [
-  {
-    label: 'Name:',
-    type: 'text',
-    name: 'name',
-    placeholder: 'Enter your name',
-  },
-  { label: 'Age:', type: 'number', name: 'age' },
-  {
-    label: 'Email:',
-    type: 'email',
-    name: 'email',
-    placeholder: 'example@gmail.com',
-  },
-  { label: 'Password:', type: 'password', name: 'password' },
-  {
-    label: 'Repeat password:',
-    type: 'password',
-    name: 'confirmPassword',
-  },
-  {
-    label: 'Gender:',
-    type: 'radio',
-    name: 'gender',
-    options: ['M', 'F'],
-  },
-  { label: 'Accept T&C:', type: 'checkbox', name: 't&c' },
-  { label: 'Choose a photo:', type: 'file', name: 'photo' },
-  {
-    label: 'Country:',
-    type: 'text',
-    name: 'country',
-    placeholder: 'Enter your country',
-  },
-];
 
 const UncontrolledForm = () => {
   const formRef = useRef<HTMLFormElement>(null);

@@ -1,15 +1,7 @@
 import { forwardRef } from 'react';
 import Password from './Password';
 import Autocomplete from './Autocomplete';
-
-interface InputProps {
-  id: string;
-  label: string;
-  type: string;
-  name: string;
-  placeholder?: string;
-  error?: string;
-}
+import { InputProps } from '../../../../types/interfaces';
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   function Input(props, ref) {

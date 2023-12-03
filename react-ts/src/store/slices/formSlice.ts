@@ -1,24 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-export interface FormOutputStored {
-  id: string;
-  name: string | undefined;
-  age: number | undefined;
-  email: string | undefined;
-  password: string | undefined;
-  confirmPassword: string | undefined;
-  gender: 'M' | 'F' | undefined;
-  't&c': boolean | undefined;
-  photo: string | undefined;
-  country: string | undefined;
-  isNew: boolean;
-}
-
-interface FormState {
-  countryList: string[];
-  formHistory: FormOutputStored[];
-}
+import { FormOutputStored, FormState } from '../../types/interfaces';
 
 const initialState: FormState = {
   countryList: [
